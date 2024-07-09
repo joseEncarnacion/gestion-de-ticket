@@ -1,0 +1,183 @@
+/* src/components/pages/HomeAuth.css */
+
+/* Estilos generales del encabezado */
+.home-header {
+    width: 100%;
+    padding: 20px;
+    background-color: #ffff;
+}
+
+/* Contenido del encabezado */
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Logo y su contenedor */
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 40px;
+    margin-right: 10px;
+    margin-left: 200px; /* Ajusta la posición del logo hacia la derecha */
+}
+
+/* Contenedor de búsqueda y perfil */
+.search-profile {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-left: auto;  /* Empuja el contenedor hacia la derecha */
+    margin-right: 200px; /* Ajusta este valor para mover más hacia la derecha */
+}
+
+.search-profile input {
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    margin-right: 10px; /* Ajusta la distancia entre la barra de búsqueda y el ícono de perfil */
+}
+
+/* Estilo del ícono de perfil */
+.icon {
+    cursor: pointer;
+}
+
+/* Menú desplegable del perfil */
+.profile-menu {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    display: none;
+    flex-direction: column;
+    width: 150px;
+}
+
+.profile-menu.open {
+    display: flex;
+}
+
+.profile-option {
+    padding: 10px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.profile-option:hover {
+    background-color: #f0f0f0;
+}
+
+/* Sección de servicios */
+.services {
+    text-align: left;
+    margin-top: 20px;
+    margin-left: 200px; /* Ajusta la posición de la sección de servicios hacia la derecha */
+}
+
+.services h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Contenedor de botones de servicios */
+.buttons {
+    display: flex;
+    justify-content: left;
+    gap: 20px; /* Espacio entre los botones */
+}
+
+.buttons button {
+    background-color: #FFC107;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.buttons button:hover {
+    background-color: #FFA000; /* Color de fondo al pasar el cursor */
+}
+
+/* Sección de servicios destacados */
+.featured-services {
+    margin-top: 20px;
+    margin-left: 200px; /* Ajusta la posición de la sección de servicios destacados hacia la derecha */
+}
+
+/* Listas de servicios y promociones */
+.services-list, .promotions-list {
+    display: flex;
+    justify-content: left;
+    gap: 20px; /* Espacio entre los elementos de la lista */
+    margin-top: 30px;
+}
+
+.service-item, .promotion-item {
+    border: 1px solid #ddd;
+    padding: 40px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+/* Imágenes de servicios y promociones */
+.service-image, .promotion-image {
+    width: 130px;
+    height: 100px;
+    background-color: #f0f0f0;
+    margin-bottom: 10px;
+}
+
+/* Contenedor adicional para la lista de servicios */
+.services-list-container {
+    margin-top: 40px;
+    margin-left: 200px; /* Ajusta la posición del contenedor de la lista de servicios hacia la derecha */
+}
+
+.services-list-container h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+
+/* Lista de servicios en el contenedor adicional */
+.services-list-container .services-list {
+    display: flex;
+    justify-content: left;
+    gap: 40px;
+}
+
+/* Estilo de calificación del servicio */
+.service-item .service-rating {
+    background-color: #eee;
+    border-radius: 5px;
+    padding: 5px;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-container input {
+    padding: 10px 40px 10px 10px; /* Ajusta el padding para dar espacio al ícono */
+    border-radius: 20px;
+    border: 1px solid #ddd;
+}
+
+.search-icon {
+    position: absolute;
+    right: 10px;
+    color: #aaa;
+}
