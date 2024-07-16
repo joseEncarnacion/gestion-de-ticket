@@ -14,7 +14,7 @@
 }
 
 .App-header {
-  background: url(./components/Assets/fondo_home.png) no-repeat;
+  background: #cac531;
   background-size: cover;
   background-position: center;
   min-height: 100vh;
@@ -23,7 +23,6 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
 }
 
 .App-link {

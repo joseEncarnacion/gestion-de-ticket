@@ -27,10 +27,10 @@ function Login() {
     }
 
     return (
-        <div className='wrapper'>
+        <div className='User-form'>
             <form onSubmit={onSubmit}>
                 <img src={loginImage} alt="Login" className="login-image" />
-                <div className="input-box">
+                <div className="form-group">
                     <FaRegUser className='icon' />
                     <input 
                         type="text" 
@@ -41,7 +41,7 @@ function Login() {
                         required 
                     />
                 </div>
-                <div className="input-box">
+                <div className="form-group">
                     <RiLockPasswordFill className='icon' />
                     <input 
                         type="password" 
@@ -53,10 +53,12 @@ function Login() {
                     />
                 </div>
                 <div className="remember-forgot">
-                    <label><input type="checkbox" />Recordar contraseña </label>
+                    <label><input type="checkbox" /> Recordar contraseña </label>
                     <a href="#">He olvidado mi contraseña</a>
                 </div>
-                <button type="submit">Iniciar Sesión</button>
+                <div className="form-group">
+                    <button type="submit">Iniciar Sesión</button>
+                </div>
                 <div className="register-link">
                     <Link to="/Registro">
                         <button type="button">Regístrate</button>
