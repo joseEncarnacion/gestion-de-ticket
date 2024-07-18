@@ -7,6 +7,7 @@ import Servicio from "./components/pages/Servicio";
 import HomeInitialAUTH from "./components/pages/HomeAuth"; // Importa el componente
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
+import BusinessOwner from "./components/Owner/businessowner";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/Registro" element={<Registro />} />
           <Route path="/HomeInitialAUTH" element={<HomeInitialAUTH />} />
           <Route path="/Servicio" element={<Servicio />} />
+          <Route path="/BusinessOwner" element={<BusinessOwner />} />
         </Routes>
       </div>
     </Router>
