@@ -10,7 +10,7 @@ import AlertaContext from "../../context/alert/alertContext";
 function Registro() {
   //valores del context
   const alertaContest = useContext(AlertaContext);
-  const {alerta, mostrarAlerta} = alertaContest
+  const {alerta, mostrarAlerta} = alertaContest;
 
   const [usuario, guardarUsuario] = useState({
     Nombre: "",
@@ -34,10 +34,51 @@ function Registro() {
   const onSubmit = (e) => {
     e.preventDefault();
     console.log(usuario);
+
+    //validate not empty input
+    if (
+      Nombre.trim() === "" ||
+      Apellido.trim() === "" ||
+      telefone.trim() === "" ||
+      email.trim() === "" ||
+      password.trim() === "" ||
+      confirmar.trim() === ""
+    ) {
+      mostrarAlerta(
+         "Todos los campos son obligatorios",
+         "alert-danger"
+      );
+      return;
+      
+    }
+
+
+    //validare password > to 5
+    if(password.length < 6){
+      mostrarAlerta(
+        "La contraseña debe tener al menos 6 caracteres",
+        "alert-danger"
+      );
+      return;
+    }
+
+    //validate if password is different
+    if(password!== confirmar){
+      mostrarAlerta(
+        "Las contraseñas no coinciden",
+        "alert-danger"
+      );
+      return;
+    }
+
+    // registration of the user
+    //... register user logic here
+    
   };
 
   return (
     <div className="User-form">
+      {alerta ? (<div className={`alert ${alerta.categoria}`}> {alerta.mensage} </div>): null}
       <div className="form-container dark-shadow">
         <form onSubmit={onSubmit}>
           <img src={loginImage} alt="Login" className="login-image" />

@@ -6,7 +6,7 @@ import Registro from "./components/auth/Registro";
 import Servicio from "./components/pages/Servicio";
 import HomeInitialAUTH from "./components/pages/HomeAuth"; // Importa el componente
 import AuthState from "./context/autenticacion/authState";
-import AlertState from "./context/alert";
+import AlertState from "./context/alert/alertStatus";
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 

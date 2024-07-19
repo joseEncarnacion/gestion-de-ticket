@@ -11,3 +11,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.alerta-ok{
+  background-color: rgb(109, 211, 109);
+  color: rgb(2, 103, 2);
+}
+
+.alerta-error{
+  background-color: rgb(230, 78, 78);
+  color: rgb(255, 255, 255);
+}
