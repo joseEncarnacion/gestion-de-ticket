@@ -8,6 +8,7 @@ import HomeInitialAUTH from "./components/pages/HomeAuth"; // Importa el compone
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 import BusinessOwner from "./components/Owner/businessowner";
+import ServiceJob from "./components/Owner/Servicejob";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/HomeInitialAUTH" element={<HomeInitialAUTH />} />
           <Route path="/Servicio" element={<Servicio />} />
           <Route path="/BusinessOwner" element={<BusinessOwner />} />
+          <Route path="/ServiceJob" element={<ServiceJob/>}/>
         </Routes>
       </div>
     </Router>

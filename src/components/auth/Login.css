@@ -42,6 +42,8 @@
     color: hsla(0, 4%, 10%, 0.605);
     padding: 10px 20px 10px 45px;
     color: #000000;
+    border: 2px solid transparent;
+    border: 2px solid #fff;
 }
 
 .form-group input::placeholder {

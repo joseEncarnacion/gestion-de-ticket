@@ -2,7 +2,7 @@
     width: 100%;
     max-width: 900px;
     background: rgb(255, 255, 255);
-    border: 2px solid rgba(255, 255, 225, .2);
+    border: 2px solid rgba(255, 255, 225, 0.2);
     backdrop-filter: blur(30px);
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.661);
     color: #000000;
@@ -17,6 +17,7 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    position: relative; /* Añadir para posicionar el menú de perfil correctamente */
 }
 
 .logo {
@@ -32,10 +33,13 @@
 .search-profile {
     display: flex;
     align-items: center;
+    flex: 1;
 }
 
 .search-container {
     position: relative;
+    flex: 1;
+    margin-left: 45px; /* Añadir margen de 45px entre el h1 y la barra de búsqueda */
 }
 
 .search-container .search-icon {
@@ -47,15 +51,14 @@
 }
 
 .search-container input {
-    width: 200px;
-    height: 100%;
+    width: 100%;
     background: linear-gradient(to right, #dddd68, #dddd6864, #ffffff);
     outline: none;
     border-radius: 40px;
     font-size: 16px;
     padding: 10px 20px 10px 45px;
     color: #000000;
-    border: 2px solid transparent;
+    border: 2px solid #fff;
 }
 
 .search-container input::placeholder {
@@ -73,7 +76,7 @@
     display: flex;
     align-items: center;
     cursor: pointer;
-    margin-left: 10px;
+    position: relative; /* Añadir para posicionar el menú de perfil correctamente */
 }
 
 .profile .icon {
@@ -123,7 +126,7 @@
     border: none;
     outline: none;
     border-radius: 40px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     font-size: 14px;
     color: #fff;
@@ -190,4 +193,23 @@
     height: 100px;
     background-color: #ddd;
     margin-bottom: 10px;
+}
+
+/* Media queries para diseño responsivo */
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .search-container {
+        width: 100%;
+        margin-top: 10px;
+        margin-left: 0; /* Eliminar margen izquierdo en pantallas más pequeñas */
+    }
+
+    .profile {
+        margin-left: 0;
+        margin-top: 10px;
+    }
 }
