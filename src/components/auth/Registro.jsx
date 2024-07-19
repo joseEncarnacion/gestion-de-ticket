@@ -5,14 +5,12 @@ import { RiLockPasswordFill } from "react-icons/ri";
 import { FaRegUser } from "react-icons/fa";
 import loginImage from "../Assets/turnoexpress.png";
 import "./Registro.css";
-import AlertaContext from "../../context/alert";
+import AlertaContext from "../../context/alert/alertContext";
 
 function Registro() {
+  //valores del context
   const alertaContest = useContext(AlertaContext);
-
-  const {alerta, mostrarAlerta} = alertaContest;
-
-
+  const {alerta, mostrarAlerta} = alertaContest
 
   const [usuario, guardarUsuario] = useState({
     Nombre: "",
