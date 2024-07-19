@@ -1,12 +1,19 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from 'react-router-dom';
 import { IoMdPhonePortrait } from "react-icons/io";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { FaRegUser } from "react-icons/fa";
 import loginImage from "../Assets/turnoexpress.png";
 import "./Registro.css";
+import AlertaContext from "../../context/alert";
 
 function Registro() {
+  const alertaContest = useContext(AlertaContext);
+
+  const {alerta, mostrarAlerta} = alertaContest;
+
+
+
   const [usuario, guardarUsuario] = useState({
     Nombre: "",
     Apellido: "",
