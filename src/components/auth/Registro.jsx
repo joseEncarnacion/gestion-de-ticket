@@ -6,11 +6,17 @@ import { FaRegUser } from "react-icons/fa";
 import loginImage from "../Assets/turnoexpress.png";
 import "./Registro.css";
 import AlertaContext from "../../context/alert/alertContext";
+import AuthContext from "../../context/autenticacion/authContext";
 
 function Registro() {
-  //valores del context
+  //valores del context alerta
   const alertaContest = useContext(AlertaContext);
   const {alerta, mostrarAlerta} = alertaContest;
+
+  //context de auth
+  const authContext = useContext(AuthContext);
+  const { RegistrarUsario } = authContext;
+ 
 
   const [usuario, guardarUsuario] = useState({
     Nombre: "",
@@ -20,9 +26,10 @@ function Registro() {
     email: "",
     password: "",
     confirmar: "",
+    ImageFile: ""
   });
 
-  const { Nombre, Apellido, telefone, email, password, confirmar } = usuario;
+  const { Nombre, Apellido, telefone, email, password, confirmar, NombreUsuario, ImageFile } = usuario;
 
   const onChange = (e) => {
     guardarUsuario({
@@ -73,6 +80,16 @@ function Registro() {
 
     // registration of the user
     //... register user logic here
+
+    RegistrarUsario({
+      Nombre,
+      Apellido,
+      telefone,
+      email,
+      password,
+      NombreUsuario, 
+      ImageFile
+    });
     
   };
 

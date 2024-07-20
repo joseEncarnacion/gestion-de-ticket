@@ -28,7 +28,7 @@ const AuthState = (props) => {
 
     const RegistrarUsario =  async datos =>{
         try{
-            const respuesta = await clienteAxios.post(process.env.REACT_APP_BACKEND_URL + '/register', datos);
+            const respuesta = await clienteAxios.post('https://localhost:7207/api/v1/Account/register', datos);
             console.log(respuesta);
 
             dispatch({
@@ -51,7 +51,8 @@ const AuthState = (props) => {
                 usuario: state.usuario,
                 autenticado: state.autenticado,
                 error: state.error,
-                mensaje: state.mensaje
+                mensaje: state.mensaje,
+                RegistrarUsario
             }}
 
         >{props.children}
