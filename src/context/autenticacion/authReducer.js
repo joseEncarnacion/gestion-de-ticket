@@ -7,8 +7,8 @@ import {
     CERRAR_SESION
 } from '../../types';
 
-// eslint-disable-next-line import/no-anonymous-default-export
-export default (state, action) => {
+
+const AuthReducer = (state, action) =>{
     switch (action.type) {
 
         case REGISTRO_EXITO:
@@ -28,6 +28,8 @@ export default (state, action) => {
        
         default:
             return state;
-
     }
+
 }
+        
+export default AuthReducer;

@@ -18,7 +18,7 @@ const AuthState = (props) => {
         token: localStorage.getItem('token'),
         usuario: null,
         autenticado: null,
-        error: null,
+        cargando: null,
         mensaje: null
     };
 
@@ -28,20 +28,50 @@ const AuthState = (props) => {
 
     const RegistrarUsario =  async datos =>{
         try{
-            const respuesta = await clienteAxios.post('https://localhost:7207/api/v1/Account/register', datos);
-            console.log(respuesta);
+            const respuesta = await clienteAxios.post('/register', datos);
+            console.log(respuesta.headers);
+            console.log(respuesta.data);
+            console.log(respuesta.status);
 
             dispatch({
                 type: REGISTRO_EXITO,
-                payload: respuesta.data.data
+                payload: respuesta.data
             });
         } catch(error){
-            console.log(error);
+            // console.log(error.response.data.msg);
+            const alerta = {
+                msg: error.response.data.msg,
+                categoria: 'alerta-error'
+            }
+
             dispatch({
                 type: REGISTRO_ERROR,
-                payload: error.response.data.msg
-            });
+                payload: alerta
+            })
         }
+
+         // Retorna el usuario autenticado
+        // const usuarioAutenticado = async () => {
+        //     const token = localStorage.getItem('token');
+        //     if(token) {
+        //         tokenAuth(token);
+        //     }
+
+        //     try {
+        //         const respuesta = await clienteAxios.get('/api/auth');
+        //         // console.log(respuesta);
+        //         dispatch({
+        //             type: OBTENER_USUARIO,
+        //             payload: respuesta.data.usuario
+        //         });
+
+        //     } catch (error) {
+        //         console.log(error.response);
+        //         dispatch({
+        //             type: LOGIN_ERROR
+        //         })
+        //     }
+        // }
     }
 
     return(
@@ -50,7 +80,7 @@ const AuthState = (props) => {
                 token: state.token,
                 usuario: state.usuario,
                 autenticado: state.autenticado,
-                error: state.error,
+                cargando: state.cargando,
                 mensaje: state.mensaje,
                 RegistrarUsario
             }}

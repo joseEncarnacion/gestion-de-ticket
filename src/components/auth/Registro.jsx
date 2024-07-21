@@ -29,7 +29,7 @@ function Registro() {
     ImageFile: ""
   });
 
-  const { Nombre, Apellido, telefone, email, password, confirmar, NombreUsuario, ImageFile } = usuario;
+  const { Nombre, Apellido, telefone, email, password, NombreUsuario, ImageFile, confirmar } = usuario;
 
   const onChange = (e) => {
     guardarUsuario({
@@ -97,6 +97,7 @@ function Registro() {
     <div className="User-form">
       {alerta ? (<div className={`alert ${alerta.categoria}`}> {alerta.mensage} </div>): null}
       <div className="form-container dark-shadow">
+        
         <form onSubmit={onSubmit}>
           <img src={loginImage} alt="Login" className="login-image" />
           <div className="form-group">
@@ -119,6 +120,31 @@ function Registro() {
               id="Apellido"
               value={Apellido}
               placeholder="Apellido"
+              onChange={onChange}
+            />
+          </div>
+
+          
+          <div className="form-group">
+            <input
+              type="text"
+              className="form-control"
+              name="NombreUsuario"
+              id="NombreUsuario"
+              value={NombreUsuario}
+              placeholder="Nombre de usuario"
+              onChange={onChange}
+            />
+          </div>
+
+          <div className="form-group">
+            <input
+              type="file"
+              className="form-control"
+              name="ImageFile"
+              id="ImageFile"
+              value={ImageFile}
+              placeholder="Su imagen"
               onChange={onChange}
             />
           </div>
@@ -179,10 +205,13 @@ function Registro() {
             <button type="submit">Registrate</button>
           </div>
 
+
           <div className="Iniciar-sesion-link">
+
             <Link to="/">
               <button type="submit">Iniciar Sesión</button>
             </Link>
+            
           </div>
         </form>
       </div>
