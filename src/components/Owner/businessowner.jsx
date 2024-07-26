@@ -1,18 +1,24 @@
 import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom'; // Importa useNavigate
 import './businessowner.css';
 import logo from '../Assets/turnoexpress.png';
 import { FaRegUser } from "react-icons/fa";
 import { RxMagnifyingGlass } from "react-icons/rx";
-import { Link } from 'react-router-dom';
 
 const BusinessOwner = () => {
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [services, setServices] = useState([]);
   const [establishments, setEstablishments] = useState([]);
   const [employees, setEmployees] = useState([]);
+  const navigate = useNavigate(); // Inicializa useNavigate
 
   const toggleProfileMenu = () => {
     setProfileMenuOpen(!profileMenuOpen);
+  };
+
+  const logout = () => {
+    // Aquí puedes añadir lógica para cerrar la sesión, como limpiar el token de autenticación
+    navigate('/'); // Redirige al login
   };
 
   const addEstablishment = () => {
@@ -32,36 +38,35 @@ const BusinessOwner = () => {
   return (
     <div className='business-owner'>
       <div className="business-owner-header-content">
-                <div className="logo">
-                    <img src={logo} alt="Barbería Corte Perfecto" />
-                    <span>Filtro de ubicacion</span>
-                </div>
-                <div className="search-profile">
-                    <div className="search-container">
-                    <RxMagnifyingGlass className='search-icon' />
-                        <input type="text" placeholder="Buscar servicios" />
-                    
-                    </div>
-                    <div className="profile" onClick={toggleProfileMenu}>
-                        <FaRegUser className='icon' />
-                        <span>Mi Perfil</span>
-                        <span>▼</span>
-                    </div>
-                    {profileMenuOpen && (
-                        <div className="profile-menu">
-                            <div className="profile-option">Configurar Perfil</div>
-                            <div className="profile-option">Cerrar Cuenta</div>
-                        </div>
-                    )}
-                </div>
+        <div className="logo">
+          <img src={logo} alt="Barbería Corte Perfecto" />
+          <span>Filtro de ubicacion</span>
+        </div>
+        <div className="search-profile">
+          <div className="search-container">
+            <RxMagnifyingGlass className='search-icon' />
+            <input type="text" placeholder="Buscar servicios" />
+          </div>
+          <div className="profile" onClick={toggleProfileMenu}>
+            <FaRegUser className='icon' />
+            <span>Mi Perfil</span>
+            <span>▼</span>
+          </div>
+          {profileMenuOpen && (
+            <div className="profile-menu">
+              <div className="profile-option">Configurar Perfil</div>
+              <div className="profile-option" onClick={logout}>Cerrar Sesión</div>
             </div>
+          )}
+        </div>
+      </div>
       <div className="business-owner-services">
         <h1>Bienvenido</h1>
         <div className="business-owner-buttons">
           <Link to="/servicejob"><button>Servicios</button></Link>
           <button>Vistas de turno</button>
           <button>Empleados</button>
-          <button>Establecimiento</button>
+          <Link to="/Establishments"><button>Establecimiento</button></Link>
         </div>
       </div>
       <div className="business-owner-featured-services">

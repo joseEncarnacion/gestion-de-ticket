@@ -1,14 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import './HomeAuth.css';
 import logo from '../Assets/turnoexpress.png';
-import { FaRegUser } from "react-icons/fa";
+import defaultProfilePic from '../Assets/turnoexpress.png';
 import { RxMagnifyingGlass } from "react-icons/rx";
 
 const HomeInitialAUTH = () => {
     const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+    const [profilePic, setProfilePic] = useState(defaultProfilePic);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const userProfile = JSON.parse(localStorage.getItem('userProfile'));
+        if (userProfile && userProfile.profileImage) {
+            setProfilePic(`${userProfile.profileImage}`);
+        }
+    }, []);
 
     const toggleProfileMenu = () => {
         setProfileMenuOpen(!profileMenuOpen);
+    };
+
+    const logout = () => {
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: "btn btn-success",
+                cancelButton: "btn btn-danger"
+            },
+            buttonsStyling: false
+        });
+
+        swalWithBootstrapButtons.fire({
+            title: "¿Estás seguro?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sí, cerrar sesión",
+            cancelButtonText: "No, cancelar",
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                swalWithBootstrapButtons.fire({
+                    title: "¡Cerrado!",
+                    text: "Tu sesión ha sido cerrada.",
+                    icon: "success"
+                }).then(() => {
+                    localStorage.removeItem('userProfile');
+                    navigate('/'); // Redirige al login
+                });
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                swalWithBootstrapButtons.fire({
+                    title: "Cancelado",
+                    text: "Tu sesión sigue activa.",
+                    icon: "error"
+                });
+            }
+        });
     };
 
     const services = [
@@ -22,23 +69,22 @@ const HomeInitialAUTH = () => {
             <div className="header-content">
                 <div className="logo">
                     <img src={logo} alt="Barbería Corte Perfecto" />
-                    <span>Filtro de ubicacion</span>
+                    <span>Filtro de ubicación</span>
                 </div>
                 <div className="search-profile">
                     <div className="search-container">
-                    <RxMagnifyingGlass className='search-icon' />
+                        <RxMagnifyingGlass className='search-icon' />
                         <input type="text" placeholder="Buscar servicios" />
-                    
                     </div>
                     <div className="profile" onClick={toggleProfileMenu}>
-                        <FaRegUser className='icon' />
+                        <img src={profilePic} alt="Profile" className='profile-pic' />
                         <span>Mi Perfil</span>
                         <span>▼</span>
                     </div>
                     {profileMenuOpen && (
                         <div className="profile-menu">
                             <div className="profile-option">Configurar Perfil</div>
-                            <div className="profile-option">Cerrar Cuenta</div>
+                            <div className="profile-option" onClick={logout}>Cerrar Sesión</div>
                         </div>
                     )}
                 </div>

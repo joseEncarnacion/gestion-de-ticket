@@ -1,30 +1,90 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import './Login.css';
 import { FaRegUser } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
 import loginImage from '../Assets/turnoexpress.png';
+import apiService from '../../api/apiService';
 
 function Login() {
-    const [usuario, guardarUsuario] = useState({
-        email: '',
+    const [usuario, setUsuario] = useState({
+        userName: '',
         password: ''
     });
+    const [rememberPassword, setRememberPassword] = useState(false);
 
-    const { email, password } = usuario;
+    const { userName, password } = usuario;
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const savedUserName = localStorage.getItem('userName');
+        const savedPassword = localStorage.getItem('password');
+        if (savedUserName && savedPassword) {
+            setUsuario({
+                userName: savedUserName,
+                password: savedPassword
+            });
+            setRememberPassword(true);
+        }
+    }, []);
 
     const onChange = e => {
-        guardarUsuario({
+        setUsuario({
             ...usuario,
             [e.target.name]: e.target.value
         });
-    }
+    };
 
-    const onSubmit = e => {
+    const onRememberChange = () => {
+        setRememberPassword(!rememberPassword);
+    };
+
+    const onSubmit = async e => {
         e.preventDefault();
-        console.log(usuario);
-        // Validate the input and perform the login action
-    }
+        try {
+            const response = await apiService.login({
+                userName,
+                password
+            });
+
+            if (response.success) {
+                if (rememberPassword) {
+                    localStorage.setItem('userName', userName);
+                    localStorage.setItem('password', password);
+                } else {
+                    localStorage.removeItem('userName');
+                    localStorage.removeItem('password');
+                }
+                // Guarda los datos del usuario en localStorage
+                localStorage.setItem('userProfile', JSON.stringify(response.data));
+                
+                Swal.fire({
+                    title: "Bienvenido",
+                    text: `Inicio de sesión exitoso. Bienvenido ${userName}`,
+                    icon: "success",
+                    confirmButtonText: "Continuar"
+                }).then(() => {
+                    navigate("/HomeInitialAUTH");
+                });
+            } else {
+                Swal.fire({
+                    title: "Error",
+                    text: response.message,
+                    icon: "error",
+                    confirmButtonText: "Intentar nuevamente"
+                });
+            }
+        } catch (error) {
+            console.error("Error al iniciar sesión:", error);
+            Swal.fire({
+                title: "Error",
+                text: "No se pudo iniciar sesión. Por favor, verifica tus credenciales e intenta nuevamente.",
+                icon: "error",
+                confirmButtonText: "Intentar nuevamente"
+            });
+        }
+    };
 
     return (
         <div className='User-form'>
@@ -34,8 +94,8 @@ function Login() {
                     <FaRegUser className='icon' />
                     <input 
                         type="text" 
-                        name="email" 
-                        value={email} 
+                        name="userName" 
+                        value={userName} 
                         onChange={onChange} 
                         placeholder='Usuario' 
                         required 
@@ -53,7 +113,14 @@ function Login() {
                     />
                 </div>
                 <div className="remember-forgot">
-                    <label><input type="checkbox" /> Recordar contraseña </label>
+                    <label>
+                        <input 
+                            type="checkbox" 
+                            checked={rememberPassword} 
+                            onChange={onRememberChange} 
+                        /> 
+                        Recordar contraseña 
+                    </label>
                     <a href="#">He olvidado mi contraseña</a>
                 </div>
                 <div className="form-group">

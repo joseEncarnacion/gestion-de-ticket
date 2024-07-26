@@ -213,3 +213,12 @@
         margin-top: 10px;
     }
 }
+
+
+.profile .profile-pic {
+    width: 60px;
+    height: 50px;
+    
+    border-radius: 100%;
+    margin-right: 30px;
+}

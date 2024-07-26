@@ -118,3 +118,14 @@ input:-webkit-autofill:active {
     margin: 0 auto 20px;
     max-width: 90px;
 }
+
+
+.swal2-custom {
+    max-width: 30%; /* Controla el ancho máximo del cuadro de diálogo */
+  }
+  
+  .swal2-custom img {
+    max-width: 60%; /* Controla el ancho máximo de la imagen */
+    height: auto; /* Mantiene la proporción de la imagen */
+  }
+  
