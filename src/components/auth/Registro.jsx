@@ -9,27 +9,24 @@ import AlertaContext from "../../context/alert/alertContext";
 import AuthContext from "../../context/autenticacion/authContext";
 
 function Registro() {
-  //valores del context alerta
-  const alertaContest = useContext(AlertaContext);
-  const {alerta, mostrarAlerta} = alertaContest;
+  const alertaContext = useContext(AlertaContext);
+  const { alerta, mostrarAlerta } = alertaContext;
 
-  //context de auth
   const authContext = useContext(AuthContext);
-  const { RegistrarUsario } = authContext;
- 
+  const { RegistrarUsuario } = authContext;
 
   const [usuario, guardarUsuario] = useState({
-    Nombre: "",
-    Apellido: "",
-    NombreUsuario: "",
-    telefone: "",
-    email: "",
-    password: "",
+    FirstName: "",
+    LastName: "",
+    UserName: "",
+    Email: "",
+    PhoneNumber: "",
+    Password: "",
     confirmar: "",
-    ImageFile: ""
+    ImageFile: null
   });
 
-  const { Nombre, Apellido, telefone, email, password, NombreUsuario, ImageFile, confirmar } = usuario;
+  const { FirstName, LastName, PhoneNumber, Email, Password, UserName, confirmar } = usuario;
 
   const onChange = (e) => {
     guardarUsuario({
@@ -38,180 +35,145 @@ function Registro() {
     });
   };
 
+  const onFileChange = (e) => {
+    guardarUsuario({
+      ...usuario,
+      ImageFile: e.target.files[0],
+    });
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(usuario);
 
-    //validate not empty input
     if (
-      Nombre.trim() === "" ||
-      Apellido.trim() === "" ||
-      telefone.trim() === "" ||
-      email.trim() === "" ||
-      password.trim() === "" ||
+      FirstName.trim() === "" ||
+      LastName.trim() === "" ||
+      PhoneNumber.trim() === "" ||
+      Email.trim() === "" ||
+      Password.trim() === "" ||
       confirmar.trim() === ""
     ) {
-      mostrarAlerta(
-         "Todos los campos son obligatorios",
-         "alert-danger"
-      );
-      return;
-      
-    }
-
-
-    //validare password > to 5
-    if(password.length < 6){
-      mostrarAlerta(
-        "La contraseña debe tener al menos 6 caracteres",
-        "alert-danger"
-      );
+      mostrarAlerta("Todos los campos son obligatorios", "alert-danger");
       return;
     }
 
-    //validate if password is different
-    if(password!== confirmar){
-      mostrarAlerta(
-        "Las contraseñas no coinciden",
-        "alert-danger"
-      );
+    if (Password.length < 6) {
+      mostrarAlerta("La contraseña debe tener al menos 6 caracteres", "alert-danger");
       return;
     }
 
-    // registration of the user
-    //... register user logic here
+    if (Password !== confirmar) {
+      mostrarAlerta("Las contraseñas no coinciden", "alert-danger");
+      return;
+    }
 
-    RegistrarUsario({
-      Nombre,
-      Apellido,
-      telefone,
-      email,
-      password,
-      NombreUsuario, 
-      ImageFile
-    });
-    
+    const formData = new FormData();
+    formData.append("FirstName", FirstName);
+    formData.append("LastName", LastName);
+    formData.append("UserName", UserName);
+    formData.append("Email", Email);
+    formData.append("PhoneNumber", PhoneNumber);
+    formData.append("Password", Password);
+    formData.append("ImageFile", usuario.ImageFile);
+
+    RegistrarUsuario(formData);
   };
 
   return (
     <div className="User-form">
-      {alerta ? (<div className={`alert ${alerta.categoria}`}> {alerta.mensage} </div>): null}
+      {alerta && <div className={`alert ${alerta.categoria}`}>{alerta.mensaje}</div>}
       <div className="form-container dark-shadow">
-        
         <form onSubmit={onSubmit}>
           <img src={loginImage} alt="Login" className="login-image" />
           <div className="form-group">
             <input
               type="text"
               className="form-control"
-              name="Nombre"
-              id="Nombre"
-              value={Nombre}
+              name="FirstName"
+              value={FirstName}
               placeholder="Nombre"
               onChange={onChange}
             />
           </div>
-
           <div className="form-group">
             <input
               type="text"
               className="form-control"
-              name="Apellido"
-              id="Apellido"
-              value={Apellido}
+              name="LastName"
+              value={LastName}
               placeholder="Apellido"
               onChange={onChange}
             />
           </div>
-
-          
           <div className="form-group">
             <input
               type="text"
               className="form-control"
-              name="NombreUsuario"
-              id="NombreUsuario"
-              value={NombreUsuario}
+              name="UserName"
+              value={UserName}
               placeholder="Nombre de usuario"
               onChange={onChange}
             />
           </div>
-
           <div className="form-group">
             <input
               type="file"
               className="form-control"
               name="ImageFile"
-              id="ImageFile"
-              value={ImageFile}
-              placeholder="Su imagen"
-              onChange={onChange}
+              onChange={onFileChange}
             />
           </div>
-
           <div className="form-group">
             <IoMdPhonePortrait className="icon" />
             <input
               type="text"
               className="form-control"
-              name="telefone"
-              id="telefone"
-              value={telefone}
+              name="PhoneNumber"
+              value={PhoneNumber}
               placeholder="Teléfono"
               onChange={onChange}
             />
           </div>
-
           <div className="form-group">
             <FaRegUser className="icon" />
             <input
               type="email"
               className="form-control"
-              name="email"
-              id="email"
-              value={email}
+              name="Email"
+              value={Email}
               placeholder="Correo electrónico"
               onChange={onChange}
             />
           </div>
-
           <div className="form-group">
             <RiLockPasswordFill className="icon" />
             <input
               type="password"
               className="form-control"
-              id="password"
-              value={password}
-              name="password"
+              name="Password"
+              value={Password}
               placeholder="Contraseña"
               onChange={onChange}
             />
           </div>
-
           <div className="form-group">
             <RiLockPasswordFill className="icon" />
             <input
               type="password"
               className="form-control"
-              id="confirmar"
-              value={confirmar}
               name="confirmar"
-              placeholder="Repita la contraseña"
+              value={confirmar}
+              placeholder="Confirmar contraseña"
               onChange={onChange}
             />
           </div>
-
           <div className="form-group mt-3">
-            <button type="submit">Registrate</button>
+            <button type="submit">Registrarse</button>
           </div>
-
-
           <div className="Iniciar-sesion-link">
-
             <Link to="/">
-              <button type="submit">Iniciar Sesión</button>
+              <button type="button">Iniciar Sesión</button>
             </Link>
-            
           </div>
         </form>
       </div>

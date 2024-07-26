@@ -5,31 +5,27 @@ import {
     LOGIN_EXITO,
     LOGIN_ERROR,
     CERRAR_SESION
-} from '../../types';
-
-
-const AuthReducer = (state, action) =>{
+  } from '../../types';
+  
+  const AuthReducer = (state, action) => {
     switch (action.type) {
-
-        case REGISTRO_EXITO:
-            localStorage.setItem('token', action.payload.token);
-            return {
-                ...state,
-                autenticado: true,
-                mensaje: null
-            };
-
-        case REGISTRO_ERROR:
-            return {
-               ...state,
-                token: null,
-                mensaje: action.payload
-            };
-       
-        default:
-            return state;
+      case REGISTRO_EXITO:
+        localStorage.setItem('token', action.payload.token);
+        return {
+          ...state,
+          autenticado: true,
+          mensaje: null
+        };
+      case REGISTRO_ERROR:
+        return {
+          ...state,
+          token: null,
+          mensaje: action.payload
+        };
+      default:
+        return state;
     }
-
-}
-        
-export default AuthReducer;
+  };
+  
+  export default AuthReducer;
+  

@@ -1,11 +1,19 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Login.css';
 import { FaRegUser } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
 import loginImage from '../Assets/turnoexpress.png';
+import AlertaContext from "../../context/alert/alertContext";
+import AuthContext from "../../context/autenticacion/authContext";
 
 function Login() {
+    const alertaContext = useContext(AlertaContext);
+    const { alerta, mostrarAlerta } = alertaContext;
+
+    const authContext = useContext(AuthContext);
+    const { iniciarSesion } = authContext;
+
     const [usuario, guardarUsuario] = useState({
         email: '',
         password: ''
@@ -22,12 +30,20 @@ function Login() {
 
     const onSubmit = e => {
         e.preventDefault();
-        console.log(usuario);
-        // Validate the input and perform the login action
+
+        // Validate input
+        if (email.trim() === '' || password.trim() === '') {
+            mostrarAlerta('Todos los campos son obligatorios', 'alert-danger');
+            return;
+        }
+
+        // Perform the login action
+        iniciarSesion({ email, password });
     }
 
     return (
         <div className='User-form'>
+            {alerta && <div className={`alert ${alerta.categoria}`}>{alerta.mensaje}</div>}
             <form onSubmit={onSubmit}>
                 <img src={loginImage} alt="Login" className="login-image" />
                 <div className="form-group">
@@ -54,7 +70,9 @@ function Login() {
                 </div>
                 <div className="remember-forgot">
                     <label><input type="checkbox" /> Recordar contraseña </label>
-                    <a href="#">He olvidado mi contraseña</a>
+                    <Link to="/">
+                        <button className='btn btn-outliner-secundary' type="button">He olvidado mi contraseña</button>
+                    </Link>
                 </div>
                 <div className="form-group">
                     <button type="submit">Iniciar Sesión</button>
