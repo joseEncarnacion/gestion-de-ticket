@@ -1,0 +1,225 @@
+.business-owner {
+  width: 100%;
+  max-width: 900px;
+  background: rgb(255, 255, 255);
+  border: 2px solid rgba(255, 255, 225, .2);
+  backdrop-filter: blur(30px);
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.661);
+  color: #000000;
+  border-radius: 10px;
+  padding: 20px 40px;
+  margin: auto;
+  margin-top: 20px;
+  position: relative; /* Añadir para posicionar el menú de perfil correctamente */
+}
+
+.business-owner-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  max-width: 50px;
+  margin-right: 10px;
+}
+
+.search-profile {
+  display: flex;
+  align-items: center;
+  position: relative; /* Añadir para posicionar el menú de perfil correctamente */
+  user-select: none;
+}
+
+.search-container {
+  position: relative; /* Añadido para posicionar correctamente el ícono */
+  display: flex;
+  align-items: center;
+  margin-right: 20px; /* Añadido espacio entre el input y el perfil */
+}
+
+.search-icon {
+  position: absolute;
+  left: 10px;
+  font-size: 20px;
+  color: #0f0f0fd0;
+}
+
+.search-container input {
+  padding: 10px 20px 10px 40px; /* Aumentado el padding para dar espacio al ícono */
+  border-radius: 5px;
+  font-size: 14px;
+  background: linear-gradient(to right, #dddd68, #dddd6864, #ffffff);
+  outline: none;
+  border-radius: 40px;
+  font-size: 16px;
+  color: #000000;
+  border: 2px solid #fff;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative; /* Para posicionar el menú desplegable */
+}
+
+.profile .icon {
+  font-size: 20px;
+  margin-right: 5px;
+}
+
+.profile-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #fff;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  min-width: 150px;
+}
+
+.profile-option {
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.business-owner-services {
+  margin-top: 20px;
+}
+
+.business-owner-services h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.business-owner-buttons {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.business-owner-buttons button {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  background: #000000;
+  border: none;
+  outline: none;
+  border-radius: 40px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  font-size: 14px;
+  color: #fff;
+  padding: 10px 20px;
+}
+
+.business-owner-services-list-container {
+  margin-top: 20px;
+}
+
+.business-owner-services-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 0px;
+}
+
+.business-owner-service-item {
+  background-color: #ffffff;
+  padding: 15px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.business-owner-service-item p {
+  margin-bottom: 5px;
+}
+
+.business-owner-service-image {
+  height: 100px;
+  background-color: #ddd;
+  margin-bottom: 10px;
+}
+
+.business-owner-promotion-item {
+  background-color: #ffffff;
+  padding: 15px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  min-width: 200px;
+}
+
+.business-owner-promotion-item p {
+  margin-bottom: 5px;
+}
+
+.business-owner-promotion-image {
+  height: 100px;
+  background-color: #ddd;
+  margin-bottom: 10px;
+}
+
+.business-owner-create-button {
+  margin-top: 10px;
+  background-color: #4CAF50; /* Verde */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 14px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.business-owner-create-button:hover {
+  background-color: #45a049; /* Verde más oscuro al pasar el mouse */
+}
+
+.business-owner-carousel-container {
+  margin-top: 20px;
+}
+
+.business-owner-carousel {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  padding: 10px;
+}
+
+.business-owner-carousel-item {
+  background-color: #ffffff;
+  padding: 15px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  min-width: 200px;
+}
+
+/* Media queries para diseño responsivo */
+@media (max-width: 768px) {
+  .business-owner-header-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .search-container {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .search-container input {
+    width: 100%;
+  }
+}

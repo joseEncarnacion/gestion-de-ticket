@@ -1,0 +1,107 @@
+.booking-calendar {
+  font-family: Arial, sans-serif;
+  max-width: 600px;
+  margin-top: 40px;
+  padding: 20px;
+  background: linear-gradient(to top, #ffffff, #cac531) !important;
+  border: 2px solid rgba(255, 255, 225, 0.2);
+  backdrop-filter: blur(30px);
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.661);
+  border-radius: 5px;
+  margin: auto;
+  margin-top: 70px;
+  margin-bottom: 70px;
+}
+
+.booking-calendar h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.booking-calendar img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.booking-calendar p {
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.booking-calendar .price {
+  font-weight: bold;
+  font-size: 1.2em;
+  color: #000000;
+  margin-bottom: 10px;
+}
+
+.booking-calendar .calendar-container {
+  margin-top: 20px;
+}
+
+.booking-calendar .days {
+  display: flex;
+  justify-content: space-between;
+}
+
+.booking-calendar .day-button {
+  background-color: #000000;
+  border: none;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.booking-calendar .day-button.selected {
+  background-color: #cac531;
+  color: #ffffff;
+}
+
+.booking-calendar .time-slots {
+  margin-top: 20px;
+}
+
+.booking-calendar .time-slot {
+  background-color: #ffffff;
+  color: #000000;
+  border: none;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.booking-calendar .time-slot.selected {
+  background-color: #28a745;
+  color: #000000;
+}
+
+.booking-calendar .time-slot.unavailable {
+  background-color: #ccc;
+  color: #000000;
+}
+
+.booking-calendar button {
+  background-color: #cac531;
+  color: #ffffff;
+  border-radius: 10%;
+  padding: 10px 20px;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border: none;
+  outline: none;
+  border-radius: 40px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.booking-calendar button:hover {
+  background-color: #cac531;
+}
+.image-container {
+  max-width: 30%;
+  height: auto;
+}

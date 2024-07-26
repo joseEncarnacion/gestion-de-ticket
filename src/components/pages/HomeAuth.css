@@ -1,0 +1,224 @@
+.home-header {
+    width: 100%;
+    max-width: 900px;
+    background: rgb(255, 255, 255);
+    border: 2px solid rgba(255, 255, 225, 0.2);
+    backdrop-filter: blur(30px);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.661);
+    color: #000000;
+    border-radius: 10px;
+    padding: 20px 40px;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative; /* Añadir para posicionar el menú de perfil correctamente */
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    max-width: 50px;
+    margin-right: 10px;
+}
+
+.search-profile {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.search-container {
+    position: relative;
+    flex: 1;
+    margin-left: 45px; /* Añadir margen de 45px entre el h1 y la barra de búsqueda */
+}
+
+.search-container .search-icon {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    color: #000000;
+}
+
+.search-container input {
+    width: 100%;
+    background: linear-gradient(to right, #dddd68, #dddd6864, #ffffff);
+    outline: none;
+    border-radius: 40px;
+    font-size: 16px;
+    padding: 10px 20px 10px 45px;
+    color: #000000;
+    border: 2px solid #fff;
+}
+
+.search-container input::placeholder {
+    color: #000000;
+}
+
+.search-container input:focus {
+    border: 2px solid #cac531;
+    box-shadow: none;
+    outline: none;
+    background: linear-gradient(to right, #dddd6857, #ffffff);
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    position: relative; /* Añadir para posicionar el menú de perfil correctamente */
+}
+
+.profile .icon {
+    font-size: 20px;
+    margin-right: 5px;
+}
+
+.profile-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #fff;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    min-width: 150px;
+}
+
+.profile-option {
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.services {
+    margin-top: 20px;
+}
+
+.services h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.buttons button {
+    margin-right: 10px;
+    margin-bottom: 10px;
+    background: #000000;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    font-size: 14px;
+    color: #fff;
+    padding: 10px 20px;
+}
+
+.services-list-container {
+    margin-top: 20px;
+}
+
+.services-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 0px;
+}
+
+.service-item {
+    background-color: #ffffff;
+    padding: 15px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.service-item p {
+    margin-bottom: 5px;
+}
+
+.service-image {
+    height: 100px;
+    background-color: #ddd;
+    margin-bottom: 10px;
+}
+
+.service-rating {
+    background-color: #cac531;
+    color: #ffffff;
+    border-radius: 5px;
+    padding: 5px 10px;
+    display: inline-block;
+    margin-top: 5px;
+}
+
+.promotions-list {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+}
+
+.promotion-item {
+    background-color: #ffffff;
+    padding: 15px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    min-width: 200px;
+}
+
+.promotion-item p {
+    margin-bottom: 5px;
+}
+
+.promotion-image {
+    height: 100px;
+    background-color: #ddd;
+    margin-bottom: 10px;
+}
+
+/* Media queries para diseño responsivo */
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .search-container {
+        width: 100%;
+        margin-top: 10px;
+        margin-left: 0; /* Eliminar margen izquierdo en pantallas más pequeñas */
+    }
+
+    .profile {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+}
+
+
+.profile .profile-pic {
+    width: 60px;
+    height: 50px;
+    
+    border-radius: 100%;
+    margin-right: 30px;
+}
