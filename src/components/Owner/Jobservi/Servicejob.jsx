@@ -1,18 +1,17 @@
 import React, { useState, useRef, useEffect } from "react";
 import apiService from "../../../api/apiService";
-import "./Servicejob.css"
+import "./Servicejob.css";
 import { RxMagnifyingGlass } from "react-icons/rx";
 
-const ServiceJob = () => {
+const Servicejob = () => {
   const [services, setServices] = useState([]);
   const [editingServiceId, setEditingServiceId] = useState(null);
   const [newService, setNewService] = useState({
-    userId: "",
-    businessName: "",
-    location: "",
-    workingHours: "",
-    description: "",
-    profileImage: "",
+    EstablishmentId: "",
+    ServiceName: "",
+    Duration: "",
+    Price: "",
+    ServiceImage: "",
     imageFile: null
   });
   const fileInputRef = useRef(null);
@@ -22,9 +21,14 @@ const ServiceJob = () => {
   }, []);
 
   const fetchServices = () => {
-    apiService.getAll('/Establishments')
+    apiService.getAll('/Services')
       .then(response => {
-        setServices(response.data.items);
+        console.log("API response:", response); // Depuración
+        if (response.data && response.data.items) {
+          setServices(response.data.items);
+        } else {
+          console.error("Unexpected response structure:", response);
+        }
       })
       .catch(error => {
         console.error("Error fetching services:", error);
@@ -44,73 +48,60 @@ const ServiceJob = () => {
       reader.onloadend = () => {
         setNewService((prevService) => ({
           ...prevService,
-          profileImage: reader.result,
+          ServiceImage: reader.result,
         }));
       };
       reader.readAsDataURL(file);
     }
   };
 
-const addOrUpdateService = () => {
-  const formData = new FormData();
-  formData.append("Id", editingServiceId);  // Include the ID field
-  formData.append("UserId", newService.userId);
-  formData.append("BusinessName", newService.businessName);
-  formData.append("Location", newService.location);
-  formData.append("WorkingHours", newService.workingHours);
-  formData.append("Description", newService.description);
-  formData.append("ProfileImage", newService.profileImage);  // Include the ProfileImage field
-  if (newService.imageFile) {
-    formData.append("ImageFile", newService.imageFile);
-  }
+  const addOrUpdateService = () => {
+    const formData = new FormData();
+    formData.append("Id", editingServiceId);
+    formData.append("EstablishmentId", newService.EstablishmentId);
+    formData.append("ServiceName", newService.ServiceName);
+    formData.append("Duration", newService.Duration);
+    formData.append("Price", newService.Price);
+    formData.append("ServiceImage", newService.ServiceImage);
+    if (newService.imageFile) {
+      formData.append("ImageFile", newService.imageFile);
+    }
 
-  // Print formData content to console for debugging
-  for (let [key, value] of formData.entries()) {
-    console.log(`${key}: ${value}`);
-  }
-
-  if (editingServiceId) {
-    apiService.update(`/Establishments/${editingServiceId}`, formData)
-      .then(response => {
-        fetchServices();
-        setNewService({
-          userId: "",
-          businessName: "",
-          location: "",
-          workingHours: "",
-          description: "",
-          profileImage: "",
-          imageFile: null
+    if (editingServiceId) {
+      apiService.update(`/Services/${editingServiceId}`, formData)
+        .then(response => {
+          fetchServices();
+          resetForm();
+        })
+        .catch(error => {
+          console.error("Error updating service:", error.response ? error.response.data : error.message);
         });
-        setEditingServiceId(null);
-      })
-      .catch(error => {
-        console.error("Error updating service:", error.response ? error.response.data : error.message);
-      });
-  } else {
-    apiService.create('/Establishments', formData)
-      .then(response => {
-        fetchServices();
-        setNewService({
-          userId: "",
-          businessName: "",
-          location: "",
-          workingHours: "",
-          description: "",
-          profileImage: "",
-          imageFile: null
+    } else {
+      apiService.create('/Services', formData)
+        .then(response => {
+          fetchServices();
+          resetForm();
+        })
+        .catch(error => {
+          console.error("Error adding service:", error.response ? error.response.data : error.message);
         });
-      })
-      .catch(error => {
-        console.error("Error adding service:", error.response ? error.response.data : error.message);
-      });
-  }
-};
+    }
+  };
 
-
+  const resetForm = () => {
+    setNewService({
+      EstablishmentId: "",
+      ServiceName: "",
+      Duration: "",
+      Price: "",
+      ServiceImage: "",
+      imageFile: null
+    });
+    setEditingServiceId(null);
+  };
 
   const removeService = (id) => {
-    apiService.delete(`/Establishments/${id}`)
+    apiService.delete(`/Services/${id}`)
       .then(() => {
         fetchServices();
       })
@@ -118,7 +109,6 @@ const addOrUpdateService = () => {
         console.error("Error deleting service:", error);
       });
   };
-  
 
   const handleFileInputClick = () => {
     fileInputRef.current.click();
@@ -126,12 +116,11 @@ const addOrUpdateService = () => {
 
   const editService = (service) => {
     setNewService({
-      userId: service.userId,
-      businessName: service.businessName,
-      location: service.location,
-      workingHours: service.workingHours,
-      description: service.description,
-      profileImage: service.profileImage,
+      EstablishmentId: service.establishmentId,
+      ServiceName: service.serviceName,
+      Duration: service.duration,
+      Price: service.price,
+      ServiceImage: service.serviceImage,
       imageFile: null
     });
     setEditingServiceId(service.id);
@@ -149,37 +138,30 @@ const addOrUpdateService = () => {
       <div className="create-service-form">
         <input
           type="text"
-          name="userId"
-          placeholder="ID de Usuario"
-          value={newService.userId}
+          name="EstablishmentId"
+          placeholder="ID de Establecimiento"
+          value={newService.EstablishmentId}
           onChange={handleInputChange}
         />
         <input
           type="text"
-          name="businessName"
-          placeholder="Nombre del Negocio"
-          value={newService.businessName}
+          name="ServiceName"
+          placeholder="Nombre del Servicio"
+          value={newService.ServiceName}
           onChange={handleInputChange}
         />
         <input
           type="text"
-          name="location"
-          placeholder="Ubicación"
-          value={newService.location}
+          name="Duration"
+          placeholder="Duración"
+          value={newService.Duration}
           onChange={handleInputChange}
         />
         <input
           type="text"
-          name="workingHours"
-          placeholder="Horas de Trabajo"
-          value={newService.workingHours}
-          onChange={handleInputChange}
-        />
-        <input
-          type="text"
-          name="description"
-          placeholder="Descripción"
-          value={newService.description}
+          name="Price"
+          placeholder="Precio"
+          value={newService.Price}
           onChange={handleInputChange}
         />
         <div className="file-input-container">
@@ -194,9 +176,9 @@ const addOrUpdateService = () => {
           <button className="custom-file-upload" onClick={handleFileInputClick}>
             Subir Imagen
           </button>
-          {newService.profileImage && (
+          {newService.ServiceImage && (
             <img
-              src={newService.profileImage}
+              src={newService.ServiceImage}
               alt="Preview"
               className="image-preview"
             />
@@ -207,27 +189,28 @@ const addOrUpdateService = () => {
         </button>
       </div>
       <div className="service-list">
-        {services.map(service => (
-          <div key={service.id} className="service-item">
-            <p>ID de Usuario: {service.userId}</p>
-            <p>Nombre: {service.businessName}</p>
-            <p>Ubicación: {service.location}</p>
-            <p>Horas de Trabajo: {service.workingHours}</p>
-            <p>Descripción: {service.description}</p>
-            {service.profileImage && (
-              <img src={service.profileImage} alt={service.businessName} />
-            )}
-            <div className="service-actions">
-              <button onClick={() => editService(service)}>
-                Modificar
-              </button>
-              <button onClick={() => removeService(service.id)}>Eliminar</button>
+        {services.length === 0 ? (
+          <p>No hay servicios disponibles</p>
+        ) : (
+          services.map(service => (
+            <div key={service.id} className="service-item">
+              <p>ID de Establecimiento: {service.establishmentId}</p>
+              <p>Nombre del Servicio: {service.serviceName}</p>
+              <p>Duración: {service.duration} minutos</p>
+              <p>Precio: ${service.price}</p>
+              {service.serviceImage && (
+                <img src={`https://localhost:7207/api/v1/Services/images/${service.serviceImage}`} alt={service.serviceName} />
+              )}
+              <div className="service-actions">
+                <button onClick={() => editService(service)}>Modificar</button>
+                <button onClick={() => removeService(service.id)}>Eliminar</button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </div>
   );
 };
 
-export default ServiceJob;
+export default Servicejob;

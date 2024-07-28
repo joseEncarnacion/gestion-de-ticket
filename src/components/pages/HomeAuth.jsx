@@ -3,18 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import './HomeAuth.css';
 import logo from '../Assets/turnoexpress.png';
-import defaultProfilePic from '../Assets/turnoexpress.png';
 import { RxMagnifyingGlass } from "react-icons/rx";
 
 const HomeInitialAUTH = () => {
     const [profileMenuOpen, setProfileMenuOpen] = useState(false);
-    const [profilePic, setProfilePic] = useState(defaultProfilePic);
+    const [profilePic, setProfilePic] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
         const userProfile = JSON.parse(localStorage.getItem('userProfile'));
         if (userProfile && userProfile.profileImage) {
-            setProfilePic(`${userProfile.profileImage}`);
+            setProfilePic(`https://localhost:7207/api/v1/Images/%20?folderName=CustomIdentityUser&imageName=${userProfile.profileImage}`);
         }
     }, []);
 
@@ -45,7 +44,8 @@ const HomeInitialAUTH = () => {
                     text: "Tu sesión ha sido cerrada.",
                     icon: "success"
                 }).then(() => {
-                    localStorage.removeItem('userProfile');
+                    // Lógica adicional para cerrar sesión, como limpiar tokens
+                    localStorage.clear(); // Limpiar todo el localStorage
                     navigate('/'); // Redirige al login
                 });
             } else if (result.dismiss === Swal.DismissReason.cancel) {
@@ -111,24 +111,16 @@ const HomeInitialAUTH = () => {
                     ))}
                 </div>
                 <h3>Promociones Especiales</h3>
-                <div className="promotions-list">
-                    {["Pedicura + Manicura - $30", "Corte + Tinte - $35"].map((promo, index) => (
-                        <div key={index} className="promotion-item">
-                            <div className="promotion-image"></div>
-                            <p>{promo}</p>
-                        </div>
-                    ))}
-                </div>
-            </div>
-            <div className="services-list-container">
-                <h2>Nuestros Servicios</h2>
                 <div className="services-list">
                     {services.map((service, index) => (
                         <div key={index} className="service-item">
                             <div className="service-image"></div>
-                            <p>{service.title}</p>
-                            <p>{service.duration} · {service.price}</p>
-                            <div className="service-rating">{service.rating}</div>
+                            <div className="service-details">
+                                <h4>{service.title}</h4>
+                                <p>Duración: {service.duration}</p>
+                                <p>Precio: {service.price}</p>
+                                <p>Rating: {service.rating}</p>
+                            </div>
                         </div>
                     ))}
                 </div>
