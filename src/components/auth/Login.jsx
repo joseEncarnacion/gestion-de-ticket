@@ -43,10 +43,7 @@ function Login() {
     const onSubmit = async e => {
         e.preventDefault();
         try {
-            const response = await apiService.login({
-                userName,
-                password
-            });
+            const response = await apiService.login({ userName, password });
 
             if (response.success) {
                 if (rememberPassword) {

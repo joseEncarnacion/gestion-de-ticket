@@ -10,6 +10,7 @@ import './App.css';
 import BusinessOwner from "./components/Owner/businessowner";
 import ServiceJob from "./components/Owner/Jobservi/Servicejob";
 import Establishments from "./components/Owner/Jobestablis/Establishments";
+import ImageDisplay from "./components/pages/ImageDisplay";
 
 
 
@@ -27,6 +28,7 @@ function App() {
           <Route path="/BusinessOwner" element={<BusinessOwner />} />
           <Route path="/ServiceJob" element={<ServiceJob/>}/>
           <Route path="/Establishments" element={<Establishments/>}/>
+          <Route path="ImageDisplay" element={<ImageDisplay/>}/>
         </Routes>
       </div>
     </Router>
