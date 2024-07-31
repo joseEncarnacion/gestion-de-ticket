@@ -1,0 +1,32 @@
+.employees-management {
+    padding: 20px;
+  }
+  
+  .employees-management h1 {
+    margin-bottom: 20px;
+  }
+  
+  .employees-management button {
+    margin-right: 10px;
+    padding: 10px 20px;
+  }
+  
+  .employees-management ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .employees-management li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .employees-management li span {
+    flex: 1;
+  }
+  
+  .employees-management li button {
+    margin-right: 10px;
+  }
+  

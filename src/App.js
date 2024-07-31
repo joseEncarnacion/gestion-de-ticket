@@ -11,6 +11,7 @@ import BusinessOwner from "./components/Owner/businessowner";
 import ServiceJob from "./components/Owner/Jobservi/Servicejob";
 import Establishments from "./components/Owner/Jobestablis/Establishments";
 import ImageDisplay from "./components/pages/ImageDisplay";
+import EmployeesManagement from "./components/Employee/EmployeesManagement";
 
 
 
@@ -29,6 +30,7 @@ function App() {
           <Route path="/ServiceJob" element={<ServiceJob/>}/>
           <Route path="/Establishments" element={<Establishments/>}/>
           <Route path="ImageDisplay" element={<ImageDisplay/>}/>
+          <Route path="/EmployeesManagement" element={<EmployeesManagement/>}/>
         </Routes>
       </div>
     </Router>
