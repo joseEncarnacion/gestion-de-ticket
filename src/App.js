@@ -12,6 +12,7 @@ import ServiceJob from "./components/Owner/Jobservi/Servicejob";
 import Establishments from "./components/Owner/Jobestablis/Establishments";
 import ImageDisplay from "./components/pages/ImageDisplay";
 import EmployeesManagement from "./components/Employee/EmployeesManagement";
+import JobApplicationsManagement from "./components/Employee/JobApplicationsManagement";
 
 
 
@@ -30,7 +31,8 @@ function App() {
           <Route path="/ServiceJob" element={<ServiceJob/>}/>
           <Route path="/Establishments" element={<Establishments/>}/>
           <Route path="ImageDisplay" element={<ImageDisplay/>}/>
-          <Route path="/EmployeesManagement" element={<EmployeesManagement/>}/>
+          <Route path="/employees" element={<EmployeesManagement/>}/>
+          <Route path="/job-applications" element={<JobApplicationsManagement/>}/>
         </Routes>
       </div>
     </Router>

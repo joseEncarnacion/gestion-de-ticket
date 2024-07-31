@@ -1,0 +1,28 @@
+.job-applications-management {
+    padding: 20px;
+  }
+  
+  .job-applications-management h1 {
+    margin-bottom: 20px;
+  }
+  
+  .job-applications-management ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .job-applications-management li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .job-applications-management li span {
+    flex: 1;
+  }
+  
+  .job-applications-management li button {
+    margin-right: 10px;
+    padding: 10px 20px;
+  }
+  
