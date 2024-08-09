@@ -12,6 +12,7 @@ import ServiceJob from "./components/Owner/Jobservi/Servicejob";
 import Establishments from "./components/Owner/Jobestablis/Establishments";
 import ImageDisplay from "./components/pages/ImageDisplay";
 import ContratarEmpleado from "./components/EmployeesView/ContratarEmpleado";
+import AgendarCita from "./components/CitasView/AgendarCita";
 
 
 
@@ -31,6 +32,7 @@ function App() {
           <Route path="/Establishments" element={<Establishments/>}/>
           <Route path="ImageDisplay" element={<ImageDisplay/>}/>
           <Route path="/employee" element={<ContratarEmpleado/>}/>
+          <Route path="/cita" element={<AgendarCita/>}/>
         </Routes>
       </div>
     </Router>
