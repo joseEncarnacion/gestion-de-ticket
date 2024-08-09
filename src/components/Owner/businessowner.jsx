@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom'; // Importa useNavigate
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import './businessowner.css';
 import logo from '../Assets/turnoexpress.png';
 import { FaRegUser } from "react-icons/fa";
@@ -7,18 +7,25 @@ import { RxMagnifyingGlass } from "react-icons/rx";
 
 const BusinessOwner = () => {
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+  const [profilePic, setProfilePic] = useState('');
   const [services, setServices] = useState([]);
   const [establishments, setEstablishments] = useState([]);
   const [employees, setEmployees] = useState([]);
-  const navigate = useNavigate(); // Inicializa useNavigate
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const userProfile = JSON.parse(localStorage.getItem('userProfile'));
+    if (userProfile && userProfile.profileImage) {
+      setProfilePic(`https://localhost:7207/api/v1/Images/%20?folderName=CustomIdentityUser&imageName=${userProfile.profileImage}`);
+    }
+  }, []);
 
   const toggleProfileMenu = () => {
     setProfileMenuOpen(!profileMenuOpen);
   };
 
   const logout = () => {
-    // Aquí puedes añadir lógica para cerrar la sesión, como limpiar el token de autenticación
-    navigate('/'); // Redirige al login
+    navigate('/');
   };
 
   const addEstablishment = () => {
@@ -28,11 +35,12 @@ const BusinessOwner = () => {
     }
   };
 
+  
   const addEmployee = () => {
-    const newEmployee = prompt('Ingrese el nombre del nuevo empleado');
-    if (newEmployee) {
-      setEmployees([...employees, newEmployee]);
-    }
+    navigate('/Rolesprofiles');
+  };
+  const AgreEstablishment = () => {
+    navigate('/Establishments');
   };
 
   return (
@@ -48,7 +56,11 @@ const BusinessOwner = () => {
             <input type="text" placeholder="Buscar servicios" />
           </div>
           <div className="profile" onClick={toggleProfileMenu}>
-            <FaRegUser className='icon' />
+            {profilePic ? (
+              <img src={profilePic} alt="Profile" className='profile-pic' />
+            ) : (
+              <FaRegUser className='icon' />
+            )}
             <span>Mi Perfil</span>
             <span>▼</span>
           </div>
@@ -99,13 +111,7 @@ const BusinessOwner = () => {
       <div className="business-owner-services-list">
         <div className="business-owner-service-item">
           <button className="business-owner-create-button" onClick={addEmployee}>Agregar Empleado</button>
-          <div className="business-owner-carousel">
-            {employees.map((employee, index) => (
-              <div key={index} className="business-owner-carousel-item">
-                <p>{employee}</p>
-              </div>
-            ))}
-          </div>
+         
         </div>
       </div>
     </div>

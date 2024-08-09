@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
 import './HomeAuth.css';
 import logo from '../Assets/turnoexpress.png';
 import { RxMagnifyingGlass } from "react-icons/rx";
+import apiService from '../../api/apiService';
+import { IoIosNotificationsOutline } from "react-icons/io";
+
+import Card from 'react-bootstrap/Card';
 
 const HomeInitialAUTH = () => {
     const [profileMenuOpen, setProfileMenuOpen] = useState(false);
     const [profilePic, setProfilePic] = useState('');
+    const [services, setServices] = useState([]);
+    const [establishments, setEstablishments] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -15,7 +23,37 @@ const HomeInitialAUTH = () => {
         if (userProfile && userProfile.profileImage) {
             setProfilePic(`https://localhost:7207/api/v1/Images/%20?folderName=CustomIdentityUser&imageName=${userProfile.profileImage}`);
         }
+        fetchServices();
+        fetchEstablishments();
     }, []);
+
+    const fetchServices = () => {
+        apiService.getAll('/Services')
+            .then(response => {
+                if (response.data && response.data.items) {
+                    setServices(response.data.items);
+                } else {
+                    console.error("Unexpected response structure:", response);
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching services:", error);
+            });
+    };
+
+    const fetchEstablishments = () => {
+        apiService.getAll('/Establishments')
+            .then(response => {
+                if (response.data && response.data.items) {
+                    setEstablishments(response.data.items);
+                } else {
+                    console.error("Unexpected response structure:", response);
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching establishments:", error);
+            });
+    };
 
     const toggleProfileMenu = () => {
         setProfileMenuOpen(!profileMenuOpen);
@@ -44,9 +82,8 @@ const HomeInitialAUTH = () => {
                     text: "Tu sesión ha sido cerrada.",
                     icon: "success"
                 }).then(() => {
-                    // Lógica adicional para cerrar sesión, como limpiar tokens
-                    localStorage.clear(); // Limpiar todo el localStorage
-                    navigate('/'); // Redirige al login
+                    localStorage.clear();
+                    navigate('/');
                 });
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 swalWithBootstrapButtons.fire({
@@ -58,18 +95,14 @@ const HomeInitialAUTH = () => {
         });
     };
 
-    const services = [
-        { title: "Servicio 1", duration: "20 min", price: "$25", rating: "4.1" },
-        { title: "Servicio 2", duration: "25 min", price: "$25", rating: "4.2" },
-        { title: "Servicio 3", duration: "30 min", price: "$25", rating: "4.3" },
-    ];
-
+    const navigateToProfile = () => {
+        navigate('/Configprofiles');
+    };
     return (
         <div className='home-header'>
             <div className="header-content">
                 <div className="logo">
                     <img src={logo} alt="Barbería Corte Perfecto" />
-                    <span>Filtro de ubicación</span>
                 </div>
                 <div className="search-profile">
                     <div className="search-container">
@@ -79,11 +112,15 @@ const HomeInitialAUTH = () => {
                     <div className="profile" onClick={toggleProfileMenu}>
                         <img src={profilePic} alt="Profile" className='profile-pic' />
                         <span>Mi Perfil</span>
-                        <span>▼</span>
+                        <span className='perfil_espacio'>▼</span>
                     </div>
                     {profileMenuOpen && (
                         <div className="profile-menu">
-                            <div className="profile-option">Configurar Perfil</div>
+                            <div className="profile-option" onClick={navigateToProfile}>Configurar Perfil</div>
+                            <div className="profile-option">
+                                <span>Notificación</span>
+                                <IoIosNotificationsOutline className="icon" />
+                            </div>
                             <div className="profile-option" onClick={logout}>Cerrar Sesión</div>
                         </div>
                     )}
@@ -100,31 +137,87 @@ const HomeInitialAUTH = () => {
                     <button>Masaje</button>
                 </div>
             </div>
-            <div className="featured-services">
-                <h3>Servicios Destacados</h3>
-                <div className="services-list">
-                    {["Corte de Cabello - $20", "Corte de Cabello - $20", "Corte de Cabello - $20", "Corte de Cabello - $20"].map((service, index) => (
-                        <div key={index} className="service-item">
-                            <div className="service-image"></div>
-                            <p>{service}</p>
+            <ServiceCarousels services={services} establishments={establishments} />
+        </div>
+    );
+};
+
+const ServiceCarousels = ({ services, establishments }) => {
+    const responsive = {
+        superLargeDesktop: {
+            breakpoint: { max: 4000, min: 1024 },
+            items: 3,
+        },
+        desktop: {
+            breakpoint: { max: 1024, min: 768 },
+            items: 2,
+        },
+        tablet: {
+            breakpoint: { max: 768, min: 464 },
+            items: 1,
+        },
+        mobile: {
+            breakpoint: { max: 464, min: 0 },
+            items: 1,
+        },
+    };
+
+    return (
+        <div className="featured-services">
+            <h3>Servicios Nuevos</h3>
+            <Carousel responsive={responsive}>
+                {services.slice(0, 5).map(service => (
+                    <div key={service.id} className="service-item">
+                        <div className="service-image">
+                            <img
+                                src={`https://localhost:7207/api/v1/Images/%20?folderName=Service&imageName=${service.serviceImage}`}
+                                alt={service.serviceName}
+                            />
                         </div>
-                    ))}
-                </div>
-                <h3>Promociones Especiales</h3>
-                <div className="services-list">
-                    {services.map((service, index) => (
-                        <div key={index} className="service-item">
-                            <div className="service-image"></div>
-                            <div className="service-details">
-                                <h4>{service.title}</h4>
-                                <p>Duración: {service.duration}</p>
-                                <p>Precio: {service.price}</p>
-                                <p>Rating: {service.rating}</p>
-                            </div>
+                        <div className="service-details">
+                            <h4>{service.serviceName}</h4>
                         </div>
-                    ))}
-                </div>
+                    </div>
+                ))}
+            </Carousel>
+
+            <h3>Servicios Impresionantes</h3>
+            <Carousel responsive={responsive}>
+                {services.slice(5, 10).map(service => (
+                    <div key={service.id} className="service-item">
+                        <div className="service-image">
+                            <img
+                                src={`https://localhost:7207/api/v1/Images/%20?folderName=Service&imageName=${service.serviceImage}`}
+                                alt={service.serviceName}
+                            />
+                        </div>
+                        <div className="service-details">
+                            <h4>{service.serviceName}</h4>
+                        </div>
+                    </div>
+                ))}
+            </Carousel>
+
+            <div>
+      <h3>Establecimientos</h3>
+      <Carousel responsive={responsive}>
+        {establishments.map((establishment) => (
+          <div key={establishment.id} className="service-item">
+            <div className="service-image">
+              <Card.Img
+                variant="top"
+                src={`https://localhost:7207/api/v1/Images/%20?folderName=Establishment&imageName=${establishment.profileImage}`}
+                alt={establishment.businessName}
+              />
             </div>
+            <div className="service-details">
+              <h4>{establishment.businessName}</h4>
+
+            </div>
+          </div>
+        ))}
+      </Carousel>
+    </div>
         </div>
     );
 };

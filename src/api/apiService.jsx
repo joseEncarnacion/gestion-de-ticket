@@ -1,4 +1,3 @@
-//apiService.jsx
 import apiClient from './axiosConfig';
 
 const apiService = {
@@ -67,7 +66,13 @@ const apiService = {
     });
   },
 
-
+  getUserByUsername: (userName) => {
+    return apiClient.get(`/Account/userbyusername/${userName}`)
+      .then(response => response.data)
+      .catch(error => {
+        throw error;
+      });
+  }
 };
 
 export default apiService;

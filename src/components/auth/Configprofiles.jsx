@@ -1,28 +1,45 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from 'react-router-dom';
-import { IoMdPhonePortrait } from "react-icons/io";
-import { RiLockPasswordFill } from "react-icons/ri";
-import { FaRegUser } from "react-icons/fa";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import Swal from "sweetalert2";
-import apiService from "../../api/apiService";
+import apiService from "../../api/apiService"; // Asegúrate de importar apiService correctamente
 import loginImage from "../Assets/file2.png";
-import "./Registro.css";
+import "./Configprofiles.css";
 
-function Registro() {
-  const [usuario, guardarUsuario] = useState({
+function Configprofiles() {
+  const [usuario, setUsuario] = useState({
     Nombre: "",
     Apellido: "",
     NomeUsuario: "",
-    telefone: "",
     email: "",
-    password: "",
-    confirmar: "",
+    phoneNumber: "",
+    roles: "",
     ProfileImage: null,
   });
   const [imagePreviewUrl, setImagePreviewUrl] = useState(loginImage);
+  const [isOwner, setIsOwner] = useState(false);
+  const [isEmployee, setIsEmployee] = useState(false);
   const navigate = useNavigate();
 
-  const { Nombre, Apellido, NomeUsuario, telefone, email, password, confirmar, ProfileImage } = usuario;
+  useEffect(() => {
+    // Reemplaza 'admin' con el nombre de usuario que deseas buscar
+    apiService.getUserByUsername('admin').then(response => {
+      const data = response.data;
+      setUsuario({
+        Nombre: data.firstName,
+        Apellido: data.lastName,
+        NomeUsuario: data.userName,
+        email: data.email,
+        phoneNumber: data.phoneNumber,
+        roles: data.roles.join(', '),
+        ProfileImage: data.profileImage,
+      });
+      if (data.profileImage) {
+        setImagePreviewUrl(`https://localhost:7207/api/v1/Images/%20?folderName=CustomIdentityUser&imageName=${data.profileImage}`);
+      }
+    }).catch(error => {
+      console.error("Error fetching user data:", error);
+    });
+  }, []);
 
   const onChange = (e) => {
     if (e.target.name === "ProfileImage") {
@@ -32,53 +49,28 @@ function Registro() {
         reader.onload = (event) => {
           setImagePreviewUrl(event.target.result);
           Swal.fire({
-            title: "Se agrego la imagen correctamente",
+            title: "Se agregó la imagen correctamente",
             imageUrl: event.target.result,
-            imageAlt: "Se agrego la imagen correctamente",
-            customClass: 'swal2-custom' // Clase personalizada
+            imageAlt: "Se agregó la imagen correctamente",
+            customClass: 'swal2-custom'
           });
         };
         reader.readAsDataURL(file);
-        guardarUsuario({
+        setUsuario({
           ...usuario,
           ProfileImage: file,
         });
       }
     } else {
-      guardarUsuario({
+      setUsuario({
         ...usuario,
         [e.target.name]: e.target.value,
       });
     }
   };
 
-  const validatePassword = (password) => {
-    const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}$/;
-    return regex.test(password);
-  };
-
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-
-    if (password !== confirmar) {
-      Swal.fire({
-        title: "Error",
-        text: "Las contraseñas no coinciden",
-        icon: "error",
-        confirmButtonText: "Ok"
-      });
-      return;
-    }
-
-    if (!validatePassword(password)) {
-      Swal.fire({
-        title: "Error",
-        text: "La contraseña debe contener al menos una letra mayúscula, una minúscula, un número y un carácter especial.",
-        icon: "error",
-        confirmButtonText: "Ok"
-      });
-      return;
-    }
 
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
@@ -100,17 +92,16 @@ function Registro() {
       if (result.isConfirmed) {
         try {
           const formData = new FormData();
-          formData.append('FirstName', Nombre);
-          formData.append('LastName', Apellido);
-          formData.append('UserName', NomeUsuario);
-          formData.append('PhoneNumber', telefone);
-          formData.append('Email', email);
-          formData.append('Password', password);
-          if (ProfileImage) {
-            formData.append('ImageFile', ProfileImage);
+          formData.append('FirstName', usuario.Nombre);
+          formData.append('LastName', usuario.Apellido);
+          formData.append('UserName', usuario.NomeUsuario);
+          if (usuario.ProfileImage) {
+            formData.append('ImageFile', usuario.ProfileImage);
           }
+          formData.append('IsOwner', isOwner);
+          formData.append('IsEmployee', isEmployee);
 
-          const response = await apiService.create('/Account/register', formData);
+          const response = await apiService.create('/Account/userbyusername', formData); // Usa apiService.create
 
           if (response.success) {
             swalWithBootstrapButtons.fire({
@@ -156,7 +147,7 @@ function Registro() {
               className="form-control"
               name="Nombre"
               id="Nombre"
-              value={Nombre}
+              value={usuario.Nombre}
               placeholder="Nombre"
               onChange={onChange}
             />
@@ -168,7 +159,7 @@ function Registro() {
               className="form-control"
               name="Apellido"
               id="Apellido"
-              value={Apellido}
+              value={usuario.Apellido}
               placeholder="Apellido"
               onChange={onChange}
             />
@@ -178,62 +169,34 @@ function Registro() {
             <input
               type="text"
               className="form-control"
-              name="NomeUsuario"
-              id="NomeUsuario"
-              value={NomeUsuario}
-              placeholder="Nombre de Usuario"
+              name="email"
+              id="email"
+              value={usuario.email}
+              placeholder="email"
               onChange={onChange}
             />
           </div>
 
           <div className="form-group">
-            <IoMdPhonePortrait className="iconRegistro" />
             <input
               type="text"
               className="form-control"
-              name="telefone"
-              id="telefone"
-              value={telefone}
-              placeholder="Teléfono"
+              name="phoneNumber"
+              id="phoneNumber"
+              value={usuario.phoneNumber}
+              placeholder="Numero de telefono"
               onChange={onChange}
             />
           </div>
 
           <div className="form-group">
-            <FaRegUser className="iconRegistro" />
             <input
-              type="email"
+              type="text"
               className="form-control"
-              name="email"
-              id="email"
-              value={email}
-              placeholder="Correo electrónico"
-              onChange={onChange}
-            />
-          </div>
-
-          <div className="form-group">
-            <RiLockPasswordFill className="iconRegistro" />
-            <input
-              type="password"
-              className="form-control"
-              id="password"
-              value={password}
-              name="password"
-              placeholder="Contraseña"
-              onChange={onChange}
-            />
-          </div>
-
-          <div className="form-group">
-            <RiLockPasswordFill className="iconRegistro" />
-            <input
-              type="password"
-              className="form-control"
-              id="confirmar"
-              value={confirmar}
-              name="confirmar"
-              placeholder="Repita la contraseña"
+              name="roles"
+              id="roles"
+              value={usuario.roles}
+              placeholder="Rolo de Usuario"
               onChange={onChange}
             />
           </div>
@@ -245,9 +208,8 @@ function Registro() {
             style={{ display: 'none' }}
             onChange={onChange}
           />
-
           <div className="form-group mt-3">
-            <button type="submit">Registrate</button>
+            <button type="submit">Editar</button>
           </div>
         </form>
       </div>
@@ -255,4 +217,4 @@ function Registro() {
   );
 }
 
-export default Registro;
+export default Configprofiles;

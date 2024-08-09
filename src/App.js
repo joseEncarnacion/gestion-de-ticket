@@ -11,6 +11,8 @@ import BusinessOwner from "./components/Owner/businessowner";
 import ServiceJob from "./components/Owner/Jobservi/Servicejob";
 import Establishments from "./components/Owner/Jobestablis/Establishments";
 import ImageDisplay from "./components/pages/ImageDisplay";
+import Configprofiles from "./components/auth/Configprofiles";
+import Intro from "./components/pages/Intro";
 
 
 
@@ -21,7 +23,9 @@ function App() {
     <Router>
       <div className="App-header">
         <Routes>
-          <Route path="/" element={<Login />} />
+        <Route path="/" element={<Intro />} />
+          <Route path="/Login" element={<Login />} />
+        <Route path="/" element={<Login />} />
           <Route path="/Registro" element={<Registro />} />
           <Route path="/HomeInitialAUTH" element={<HomeInitialAUTH />} />
           <Route path="/Servicio" element={<Servicio />} />
@@ -29,6 +33,8 @@ function App() {
           <Route path="/ServiceJob" element={<ServiceJob/>}/>
           <Route path="/Establishments" element={<Establishments/>}/>
           <Route path="ImageDisplay" element={<ImageDisplay/>}/>
+          <Route path="/Configprofiles" element={<Configprofiles />} />
+
         </Routes>
       </div>
     </Router>
