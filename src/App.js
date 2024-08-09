@@ -14,7 +14,8 @@ import ImageDisplay from "./components/pages/ImageDisplay";
 import Configprofiles from "./components/auth/Configprofiles";
 import Intro from "./components/pages/Intro";
 
-
+import ContratarEmpleado from "./components/EmployeesView/ContratarEmpleado";
+import AgendarCita from "./components/CitasView/AgendarCita";
 
 
 
@@ -34,7 +35,8 @@ function App() {
           <Route path="/Establishments" element={<Establishments/>}/>
           <Route path="ImageDisplay" element={<ImageDisplay/>}/>
           <Route path="/Configprofiles" element={<Configprofiles />} />
-
+          <Route path="/employee" element={<ContratarEmpleado/>}/>
+          <Route path="/cita" element={<AgendarCita/>}/>
         </Routes>
       </div>
     </Router>
