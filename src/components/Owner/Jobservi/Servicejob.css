@@ -1,4 +1,4 @@
-.service-management {
+.service-job {
   width: 100%;
   max-width: 900px;
   background: #fff;
@@ -12,21 +12,21 @@
   margin-top: 20px;
 }
 
-.form-service {
+.create-service-form {
   display: flex;
   flex-direction: column;
   gap: 10px;
   margin-bottom: 20px;
 }
 
-.form-service input {
+.create-service-form input {
   padding: 10px;
   border: 2px solid #ddd;
   border-radius: 5px;
   font-size: 14px;
 }
 
-.form-service button {
+.create-service-form button {
   background-color: #4caf50; /* Green */
   color: white;
   border: none;
@@ -37,7 +37,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.form-service button:hover {
+.create-service-form button:hover {
   background-color: #807e7e; /* Darker green */
 }
 
@@ -47,16 +47,19 @@
   gap: 10px;
 }
 
-.cardStyle {
+.service-item {
+  background-color: #fff;
   padding: 15px;
-  background: linear-gradient( #dddd68, #dddd6864, #ffffff);
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.service-card p {
+.service-item p {
   margin: 5px 0;
 }
 
-.service-card img {
+.service-item img {
   max-width: 100px;
   margin: 10px 0;
 }
@@ -81,18 +84,18 @@
   background-color: #e53935; /* Darker red */
 }
 
-.search-profile {
+.business-owner-search-profile {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;
 }
 
-.search-profile h1 {
+.business-owner-search-profile h1 {
   margin: 0;
 }
 
-.search-container {
+.business-owner-search-container {
   position: relative; /* Añadido para posicionar correctamente el ícono */
   display: flex;
   align-items: center;
@@ -100,7 +103,7 @@
   max-width: 600px;
 }
 
-.search-container input {
+.business-owner-search-container input {
   flex: 1;
   padding: 10px 20px 10px 40px; /* Aumentado el padding para dar espacio al ícono */
   border-radius: 5px;
@@ -115,54 +118,34 @@
 
 /* Añadir media queries para diseño responsivo */
 @media (max-width: 768px) {
-  .search-profile {
+  .business-owner-search-profile {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .search-container {
+  .business-owner-search-container {
     width: 100%;
     margin-top: 10px;
   }
 }
 
-.search-icon {
+.business-owner-search-icon {
   position: absolute;
   left: 10px;
   font-size: 20px;
   color: #0f0f0fd0;
 }
-.file-input-wrapper {
-  position: relative;
-  overflow: hidden;
-  display: inline-block;
+
+.file-input-container {
+  display: flex;
+  align-items: center;
   margin-top: 10px;
 }
 
-.fimage-previewssd {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
-.image-previewss {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
-.reduced-size {
-  width: 200px; /* Cambia este valor según sea necesario */
-  height: auto; /* Mantener la proporción de aspecto */
-}
-
-/* Este estilo es para el marco de la foto de perfil de usario para no  olvidarlo */
-.servicejob_profile{
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  object-fit: cover;
-  position: absolute;
-  top: 20px;
-  right: 20px;
+.image-preview {
+  margin-left: 20px;
+  max-height: 50px; /* Altura máxima de la vista previa de la imagen */
+  border-radius: 5px; /* Bordes redondeados para la vista previa de la imagen */
 }

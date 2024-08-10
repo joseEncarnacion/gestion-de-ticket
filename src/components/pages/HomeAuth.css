@@ -44,7 +44,7 @@ homeservice
     margin-left: 45px; /* Añadir margen de 45px entre el h1 y la barra de búsqueda */
 }
 
-.search-container .search-icon {
+.search-container .search-iconsturno {
     position: absolute;
     top: 50%;
     left: 10px;

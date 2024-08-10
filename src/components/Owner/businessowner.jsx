@@ -213,7 +213,6 @@ const navigateToEstablishments = (establishment) => {
       <div className="business-owner-header-content">
         <div className="logo">
           <img src={logo} alt="Barbería Corte Perfecto" />
-          <span>Filtro de ubicación</span>
         </div>
         <div className="search-profile">
           <div className="search-container">

@@ -8,7 +8,7 @@ import Webft2 from '../Assets/ScreenshotRegistro.png'
 import logo from '../Assets/turnoexpress.png';
 import appstore from '../Assets/logo-apple.png';
 import googleplay from '../Assets/logo-google.png';
-import qrApp from '../Assets/qr-appstore.jpg';
+import qrApp from '../Assets/QRS.jpeg';
 const Intro = () => {
   const navigate = useNavigate();
 
