@@ -1,4 +1,3 @@
-
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./components/auth/Login";
@@ -13,26 +12,28 @@ import Establishments from "./components/Owner/Jobestablis/Establishments";
 import ImageDisplay from "./components/pages/ImageDisplay";
 import ContratarEmpleado from "./components/EmployeesView/ContratarEmpleado";
 import AgendarCita from "./components/CitasView/AgendarCita";
-
-
-
-
+import Configprofiles from "./components/auth/Configprofiles";
+import Intro from "./components/pages/Intro";
+import Roless from "./components/auth/Roless";
 
 function App() {
   return (
     <Router>
       <div className="App-header">
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<Intro />} />
+          <Route path="/Login" element={<Login />} />
+          <Route path="Roless" element={<Roless />} />
           <Route path="/Registro" element={<Registro />} />
           <Route path="/HomeInitialAUTH" element={<HomeInitialAUTH />} />
           <Route path="/Servicio" element={<Servicio />} />
           <Route path="/BusinessOwner" element={<BusinessOwner />} />
-          <Route path="/ServiceJob" element={<ServiceJob/>}/>
-          <Route path="/Establishments" element={<Establishments/>}/>
-          <Route path="ImageDisplay" element={<ImageDisplay/>}/>
-          <Route path="/employee" element={<ContratarEmpleado/>}/>
-          <Route path="/cita" element={<AgendarCita/>}/>
+          <Route path="/ServiceJob" element={<ServiceJob />} />
+          <Route path="/Establishments" element={<Establishments />} />
+          <Route path="ImageDisplay" element={<ImageDisplay />} />
+          <Route path="/employee" element={<ContratarEmpleado />} />
+          <Route path="/cita" element={<AgendarCita />} />
+          <Route path="/Configprofiles" element={<Configprofiles />} />
         </Routes>
       </div>
     </Router>

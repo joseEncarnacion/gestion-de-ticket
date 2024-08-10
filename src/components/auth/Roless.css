@@ -1,0 +1,31 @@
+/* src/components/Roless.css */
+
+.roless-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.current-roles {
+    text-align: center;
+}
+
+.current-roles ul {
+    list-style-type: none;
+    padding: 0;
+}

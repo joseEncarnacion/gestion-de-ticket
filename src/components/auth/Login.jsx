@@ -42,8 +42,12 @@ function Login() {
 
     const onSubmit = async e => {
         e.preventDefault();
+        console.log("Attempting to log in with credentials:", { userName, password });
+
         try {
             const response = await apiService.login({ userName, password });
+
+            console.log("Login response:", response);
 
             if (response.success) {
                 if (rememberPassword) {
@@ -55,14 +59,27 @@ function Login() {
                 }
                 // Guarda los datos del usuario en localStorage
                 localStorage.setItem('userProfile', JSON.stringify(response.data));
-                
+
+                const roles = response.data.roles;
+
                 Swal.fire({
                     title: "Bienvenido",
                     text: `Inicio de sesión exitoso. Bienvenido ${userName}`,
                     icon: "success",
                     confirmButtonText: "Continuar"
                 }).then(() => {
-                    navigate("/HomeInitialAUTH");
+                    if (roles.includes("Propietario", "")) {
+                        navigate("/BusinessOwner");
+                    } else if (roles.includes("Cliente")) {
+                        navigate("/HomeInitialAUTH");
+                    } else {
+                        Swal.fire({
+                            title: "Error",
+                            text: "No se encontraron roles adecuados para este usuario.",
+                            icon: "error",
+                            confirmButtonText: "Intentar nuevamente"
+                        });
+                    }
                 });
             } else {
                 Swal.fire({
@@ -86,9 +103,9 @@ function Login() {
     return (
         <div className='User-form'>
             <form onSubmit={onSubmit}>
-                <img src={loginImage} alt="Login" className="login-image" />
+                <img src={loginImage} alt="iconlogin" className="login-image" />
                 <div className="form-group">
-                    <FaRegUser className='icon' />
+                    <FaRegUser className='iconlogin' />
                     <input 
                         type="text" 
                         name="userName" 
@@ -99,7 +116,7 @@ function Login() {
                     />
                 </div>
                 <div className="form-group">
-                    <RiLockPasswordFill className='icon' />
+                    <RiLockPasswordFill className='iconlogin' />
                     <input 
                         type="password" 
                         name="password" 

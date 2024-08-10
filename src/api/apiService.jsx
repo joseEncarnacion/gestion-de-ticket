@@ -1,4 +1,4 @@
-//apiService.jsx
+// src/api/apiService.jsx
 import apiClient from './axiosConfig';
 
 const apiService = {
@@ -43,18 +43,14 @@ const apiService = {
   },
 
   delete: (endpoint, data) => {
-    return apiClient.delete(endpoint, data, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
+    return apiClient.delete(endpoint, { data })
     .then(response => response.data)
     .catch(error => {
       throw error;
     });
   },
 
-  // es para el login iniciar sesion
+  // Función para iniciar sesión
   login: (data) => {
     return apiClient.post('/Account/login', data, {
       headers: {
@@ -67,7 +63,29 @@ const apiService = {
     });
   },
 
+  // Obtener un usuario por su nombre de usuario
+  getUserByUsername: (userName) => {
+    return apiClient.get(`/Account/userbyusername/${userName}`)
+      .then(response => response.data)
+      .catch(error => {
+        throw error;
+      });
+  },
 
+  // Añadir un rol a un usuario
+  addRoleToUser: async (userId, role) => {
+    try {
+      const url = `/Account/${userId}/role`;
+      const response = await apiClient.post(url, JSON.stringify(role), {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      return response;
+    } catch (error) {
+      throw error;
+    };
+  },
 };
 
 export default apiService;

@@ -1,10 +1,21 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import apiService from "../../../api/apiService";
-import "./Servicejob.css";
+import Swal from "sweetalert2";
+import withReactContent from 'sweetalert2-react-content';
+import Card from 'react-bootstrap/Card';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 import { RxMagnifyingGlass } from "react-icons/rx";
+import loginImage from "../../Assets/file2.png";
+import "./Servicejob.css";
+
+const MySwal = withReactContent(Swal);
 
 const Servicejob = () => {
   const [services, setServices] = useState([]);
+  const [filteredServices, setFilteredServices] = useState([]);
+  const [establishments, setEstablishments] = useState([]);
+  const [selectedEstablishment, setSelectedEstablishment] = useState(null);
   const [editingServiceId, setEditingServiceId] = useState(null);
   const [newService, setNewService] = useState({
     EstablishmentId: "",
@@ -12,18 +23,40 @@ const Servicejob = () => {
     Duration: "",
     Price: "",
     ServiceImage: "",
-    imageFile: null
+    imageFile: null,
   });
+  const [imagePreviewUrl, setImagePreviewUrl] = useState(loginImage);
+  const [profilePic, setProfilePic] = useState(loginImage);
+  const [searchTerm, setSearchTerm] = useState("");
   const fileInputRef = useRef(null);
 
   useEffect(() => {
-    fetchServices();
+    const userProfileString = localStorage.getItem('userProfile');
+    if (userProfileString) {
+      const userProfile = JSON.parse(userProfileString);
+      if (userProfile && userProfile.profileImage) {
+        setProfilePic(`https://localhost:7207/api/v1/Images/%20?folderName=CustomIdentityUser&imageName=${userProfile.profileImage}`);
+      }
+    }
   }, []);
+
+  useEffect(() => {
+    fetchServices();
+    fetchEstablishments();
+  }, []);
+
+  useEffect(() => {
+    // Filter services whenever the search term changes
+    setFilteredServices(
+      services.filter(service =>
+        service.serviceName.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
+  }, [searchTerm, services]);
 
   const fetchServices = () => {
     apiService.getAll('/Services')
       .then(response => {
-        console.log("API response:", response); // Depuración
         if (response.data && response.data.items) {
           setServices(response.data.items);
         } else {
@@ -35,6 +68,31 @@ const Servicejob = () => {
       });
   };
 
+  const fetchEstablishments = () => {
+    const userProfileString = localStorage.getItem('userProfile');
+    if (userProfileString) {
+      const userProfile = JSON.parse(userProfileString);
+      if (userProfile) {
+        apiService.getAll(`/Establishments?ownerId=${userProfile.id}`)
+          .then(response => {
+            if (response.data && response.data.items) {
+              const establishmentsData = response.data.items.map(establishment => ({
+                id: establishment.id,
+                userId: establishment.userId,
+                businessName: establishment.businessName
+              }));
+              setEstablishments(establishmentsData);
+            } else {
+              console.error("Unexpected response structure:", response);
+            }
+          })
+          .catch(error => {
+            console.error("Error fetching establishments:", error);
+          });
+      }
+    }
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewService({ ...newService, [name]: value });
@@ -43,13 +101,19 @@ const Servicejob = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setNewService({ ...newService, imageFile: file });
       const reader = new FileReader();
       reader.onloadend = () => {
         setNewService((prevService) => ({
           ...prevService,
           ServiceImage: reader.result,
+          imageFile: file
         }));
+        setImagePreviewUrl(reader.result);
+        MySwal.fire({
+          title: "Se agregó la imagen correctamente",
+          imageUrl: reader.result,
+          imageAlt: "Se agregó la imagen correctamente",
+        });
       };
       reader.readAsDataURL(file);
     }
@@ -95,9 +159,10 @@ const Servicejob = () => {
       Duration: "",
       Price: "",
       ServiceImage: "",
-      imageFile: null
+      imageFile: null,
     });
     setEditingServiceId(null);
+    setImagePreviewUrl(loginImage);
   };
 
   const removeService = (id) => {
@@ -121,28 +186,58 @@ const Servicejob = () => {
       Duration: service.duration,
       Price: service.price,
       ServiceImage: service.serviceImage,
-      imageFile: null
+      imageFile: null,
     });
     setEditingServiceId(service.id);
+    setImagePreviewUrl(service.serviceImage ? `https://localhost:7207/api/v1/Images/%20%20?folderName=Service&imageName=${service.serviceImage}` : loginImage);
   };
+
+  const cardStyle = {
+    height: '400px',
+    width: '100%',
+    background: 'linear-gradient( #dddd68, #dddd6864, #ffffff)',
+  };
+
+  const imgStyle = {
+    height: '150px',
+    objectFit: 'cover',
+  };
+
+  const userProfile = JSON.parse(localStorage.getItem('userProfile'));
 
   return (
     <div className="service-job">
       <div className="business-owner-search-profile">
+        <img src={profilePic} alt="Profile" className="servicejob_profile" />
         <h1>Gestión de Servicios</h1>
         <div className="business-owner-search-container">
           <RxMagnifyingGlass className="business-owner-search-icon" />
-          <input type="text" placeholder="Buscar servicios" />
+          <input
+            type="text"
+            placeholder="Buscar servicios"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
         </div>
       </div>
       <div className="create-service-form">
-        <input
-          type="text"
+        <select
           name="EstablishmentId"
-          placeholder="ID de Establecimiento"
           value={newService.EstablishmentId}
           onChange={handleInputChange}
-        />
+          style={{ color: '#000', backgroundColor: '#fff' }}
+        >
+          <option value="">Seleccionar Establecimiento</option>
+          {establishments.filter(establishment => establishment.userId === userProfile.id).map(establishment => (
+            <option
+              key={establishment.id}
+              value={establishment.id}
+              style={{ color: '#000', backgroundColor: '#fff' }}
+            >
+              {establishment.businessName}
+            </option>
+          ))}
+        </select>
         <input
           type="text"
           name="ServiceName"
@@ -164,7 +259,7 @@ const Servicejob = () => {
           value={newService.Price}
           onChange={handleInputChange}
         />
-        <div className="file-input-container">
+        <div className="image-preview">
           <input
             type="file"
             name="imageFile"
@@ -173,42 +268,57 @@ const Servicejob = () => {
             style={{ display: "none" }}
             onChange={handleImageChange}
           />
-          <button className="custom-file-upload" onClick={handleFileInputClick}>
-            Subir Imagen
-          </button>
-          {newService.ServiceImage && (
-            <img
-              src={newService.ServiceImage}
-              alt="Preview"
-              className="image-preview"
-            />
+          {imagePreviewUrl && (
+            <div className="image-preview-container">
+              <img
+                src={imagePreviewUrl}
+                alt="Preview"
+                onClick={handleFileInputClick}
+                className="reduced-size"
+              />
+            </div>
           )}
         </div>
         <button onClick={addOrUpdateService}>
           {editingServiceId ? "Actualizar Servicio" : "Crear Servicio"}
         </button>
       </div>
-      <div className="service-list">
-        {services.length === 0 ? (
-          <p>No hay servicios disponibles</p>
+      <Row xs={1} md={2} className="g-4">
+        {filteredServices.length === 0 ? (
+          <Col>
+            <p>No hay servicios disponibles</p>
+          </Col>
         ) : (
-          services.map(service => (
-            <div key={service.id} className="service-item">
-              <p>ID de Establecimiento: {service.establishmentId}</p>
-              <p>Nombre del Servicio: {service.serviceName}</p>
-              <p>Duración: {service.duration} minutos</p>
-              <p>Precio: ${service.price}</p>
-              {service.serviceImage && (
-                <img src={`https://localhost:7207/api/v1/Services/images/${service.serviceImage}`} alt={service.serviceName} />
-              )}
-              <div className="service-actions">
-                <button onClick={() => editService(service)}>Modificar</button>
-                <button onClick={() => removeService(service.id)}>Eliminar</button>
-              </div>
-            </div>
-          ))
+          filteredServices
+            .filter(service => establishments.some(e => e.id === service.establishmentId && e.userId === userProfile.id))
+            .map(service => (
+              <Col key={service.id}>
+                <Card style={cardStyle}>
+                  <Card.Img
+                    variant="top"
+                    src={`https://localhost:7207/api/v1/Images/%20%20?folderName=Service&imageName=${service.serviceImage}`}
+                    alt=""
+                    style={imgStyle}
+                  />
+                  <Card.Body>
+                    <Card.Title>{service.serviceName}</Card.Title>
+                    <Card.Text>
+                      Establecimiento: {establishments.find(e => e.id === service.establishmentId)?.businessName || 'Cargando...'}
+                    </Card.Text>
+                    <Card.Text>
+                      Duración: {service.duration}
+                    </Card.Text>
+                    <Card.Text>
+                      Precio: {service.price}
+                    </Card.Text>
+                    <button onClick={() => editService(service)}>Editar</button>
+                    <button onClick={() => removeService(service.id)}>Eliminar</button>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))
         )}
-      </div>
+      </Row>
     </div>
   );
 };

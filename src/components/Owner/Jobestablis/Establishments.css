@@ -1,153 +1,288 @@
+.service-job {
+  width: 100%;
+  max-width: 900px;
+  background: #fff;
+  border: 2px solid rgba(255, 255, 225, 0.2);
+  backdrop-filter: blur(30px);
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.661);
+  color: #000;
+  border-radius: 10px;
+  padding: 20px 40px;
+  margin: auto;
+  margin-top: 20px;
+}
+
+.create-service-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.create-service-form input {
+  padding: 10px;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.create-service-form button {
+  background-color: #4caf50; /* Green */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 14px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.create-service-form button:hover {
+  background-color: #807e7e; /* Darker green */
+}
+
+.service-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: #f7f7f7;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.service-card img {
+  width: 100%;
+  height: auto;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  object-fit: cover;
+}
+
+.service-card h3 {
+  font-size: 1.2em;
+  margin: 11px 0;
+}
+
+.service-card p {
+  margin: 5px 0;
+}
+
+.service-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.service-actions button {
+  background-color: #ff5722; /* Red */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.service-actions button:hover {
+  background-color: #d1451b; /* Darker red */
+}
+
+.business-owner-search-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 0px;
+}
+
+.business-owner-search-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #f7f7f7;
+  border-radius: 5px;
+  padding: 5px 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.business-owner-search-icon {
+  font-size: 1.5em;
+}
+
+.business-owner-search-container input {
+  border: none;
+  outline: none;
+  padding: 5px;
+  font-size: 14px;
+  flex-grow: 1;
+}
+
+.custom-file-upload {
+  background-color: #4caf50; /* Green */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 14px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.custom-file-upload:hover {
+  background-color: #45a049; /* Darker green */
+}
+
+.image-preview {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  margin-top: 10px;
+}
+
+
+.establecimiento_profile{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+
+
+.business-owner-search-container {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.image-previewss {
+  width: 150px;
+  height: 150px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.image-previewss img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 
 .service-job {
-    width: 100%;
-    max-width: 900px;
-    background: #fff;
-    border: 2px solid rgba(255, 255, 225, 0.2);
-    backdrop-filter: blur(30px);
-    box-shadow: 0 0 50px rgba(0, 0, 0, 0.661);
-    color: #000;
-    border-radius: 10px;
-    padding: 20px 40px;
-    margin: auto;
-    margin-top: 20px;
-  }
-  
-  .create-service-form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  
-  .create-service-form input {
-    padding: 10px;
-    border: 2px solid #ddd;
-    border-radius: 5px;
-    font-size: 14px;
-  }
-  
-  .create-service-form button {
-    background-color: #4caf50; /* Green */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 15px;
-    cursor: pointer;
-    font-size: 14px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  }
-  
-  .create-service-form button:hover {
-    background-color: #807e7e; /* Darker green */
-  }
-  
-  .service-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .service-item {
-    background-color: #fff;
-    padding: 15px;
-    border: 2px solid rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .service-item p {
-    margin: 5px 0;
-  }
-  
-  .service-item img {
-    max-width: 100px;
-    margin: 10px 0;
-  }
-  
-  .service-actions {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .service-actions button {
-    background-color: #f44336; /* Red */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 5px 10px;
-    cursor: pointer;
-    font-size: 14px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  }
-  
-  .service-actions button:hover {
-    background-color: #e53935; /* Darker red */
-  }
-  
-  .business-owner-search-profile {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
-  
-  .business-owner-search-profile h1 {
-    margin: 0;
-  }
-  
-  .business-owner-search-container {
-    position: relative; /* Añadido para posicionar correctamente el ícono */
-    display: flex;
-    align-items: center;
-    flex: 1;
-    max-width: 600px;
-  }
-  
-  .business-owner-search-container input {
-    flex: 1;
-    padding: 10px 20px 10px 40px; /* Aumentado el padding para dar espacio al ícono */
-    border-radius: 5px;
-    font-size: 14px;
-    background: linear-gradient(to right, #dddd68, #dddd6864, #ffffff);
-    outline: none;
-    border-radius: 40px;
-    font-size: 16px;
-    color: #000000;
-    border: 2px solid #fff;
-  }
-  
-  /* Añadir media queries para diseño responsivo */
-  @media (max-width: 768px) {
-    .business-owner-search-profile {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  
-    .business-owner-search-container {
-      width: 100%;
-      margin-top: 10px;
-    }
-  }
-  
-  .business-owner-search-icon {
-    position: absolute;
-    left: 10px;
-    font-size: 20px;
-    color: #0f0f0fd0;
-  }
-  
-  .file-input-container {
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
-  }
-  
-  
-  
-  .image-preview {
-    margin-left: 20px;
-    max-height: 50px; /* Altura máxima de la vista previa de la imagen */
-    border-radius: 5px; /* Bordes redondeados para la vista previa de la imagen */
-  }
-  
+  padding: 20px;
+}
+
+.business-owner-search-profile {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.establecimiento_profile {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.wrap-input-18 {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.search {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+}
+
+.business-owner-search-container {
+  width: 100%;
+  padding: 5px;
+  background-color: #f0f0f0; /* Cambia esto al color de fondo deseado */
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.business-owner-search-container input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+}
+
+.create-service-form {
+  margin-bottom: 20px;
+}
+
+.create-service-form input,
+.create-service-form button {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
+
+.create-service-form button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.create-service-form button:hover {
+  background-color: #45a049;
+}
+
+.image-previewss img {
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+}
+
+.image-previewss {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.reduced-size {
+  max-width: 100px;
+  max-height: 100px;
+}
+
+.g-4 {
+  margin-top: 20px;
+}
+
+.card-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.image-container {
+  overflow: hidden;
+  height: 150px; /* Altura fija para las imágenes */
+}
+
