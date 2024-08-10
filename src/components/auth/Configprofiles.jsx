@@ -21,24 +21,26 @@ function Configprofiles() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Reemplaza 'admin' con el nombre de usuario que deseas buscar
-    apiService.getUserByUsername('admin').then(response => {
-      const data = response.data;
-      setUsuario({
-        Nombre: data.firstName,
-        Apellido: data.lastName,
-        NomeUsuario: data.userName,
-        email: data.email,
-        phoneNumber: data.phoneNumber,
-        roles: data.roles.join(', '),
-        ProfileImage: data.profileImage,
+    const userProfile = JSON.parse(localStorage.getItem('userProfile'));
+    if (userProfile && userProfile.userName) {
+      apiService.getUserByUsername(userProfile.userName).then(response => {
+        const data = response.data;
+        setUsuario({
+          Nombre: data.firstName,
+          Apellido: data.lastName,
+          NomeUsuario: data.userName,
+          email: data.email,
+          phoneNumber: data.phoneNumber,
+          roles: data.roles.join(', '),
+          ProfileImage: data.profileImage,
+        });
+        if (data.profileImage) {
+          setImagePreviewUrl(`https://localhost:7207/api/v1/Images/%20?folderName=CustomIdentityUser&imageName=${data.profileImage}`);
+        }
+      }).catch(error => {
+        console.error("Error fetching user data:", error);
       });
-      if (data.profileImage) {
-        setImagePreviewUrl(`https://localhost:7207/api/v1/Images/%20?folderName=CustomIdentityUser&imageName=${data.profileImage}`);
-      }
-    }).catch(error => {
-      console.error("Error fetching user data:", error);
-    });
+    }
   }, []);
 
   const onChange = (e) => {

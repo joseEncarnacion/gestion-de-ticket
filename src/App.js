@@ -13,6 +13,8 @@ import Establishments from "./components/Owner/Jobestablis/Establishments";
 import ImageDisplay from "./components/pages/ImageDisplay";
 import Configprofiles from "./components/auth/Configprofiles";
 import Intro from "./components/pages/Intro";
+import Roless from "./components/auth/Roless";
+
 
 
 
@@ -25,7 +27,7 @@ function App() {
         <Routes>
         <Route path="/" element={<Intro />} />
           <Route path="/Login" element={<Login />} />
-        <Route path="/" element={<Login />} />
+        <Route path="Roless" element={<Roless/>} />
           <Route path="/Registro" element={<Registro />} />
           <Route path="/HomeInitialAUTH" element={<HomeInitialAUTH />} />
           <Route path="/Servicio" element={<Servicio />} />
@@ -34,7 +36,6 @@ function App() {
           <Route path="/Establishments" element={<Establishments/>}/>
           <Route path="ImageDisplay" element={<ImageDisplay/>}/>
           <Route path="/Configprofiles" element={<Configprofiles />} />
-
         </Routes>
       </div>
     </Router>

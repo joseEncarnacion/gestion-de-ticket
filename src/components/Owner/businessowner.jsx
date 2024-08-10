@@ -42,7 +42,9 @@ const BusinessOwner = () => {
   const AgreEstablishment = () => {
     navigate('/Establishments');
   };
-
+  const navigateToProfile = () => {
+    navigate('/Configprofiles');
+};
   return (
     <div className='business-owner'>
       <div className="business-owner-header-content">
@@ -66,7 +68,7 @@ const BusinessOwner = () => {
           </div>
           {profileMenuOpen && (
             <div className="profile-menu">
-              <div className="profile-option">Configurar Perfil</div>
+              <div className="profile-option" onClick={navigateToProfile}>Configurar Perfil</div>
               <div className="profile-option" onClick={logout}>Cerrar Sesión</div>
             </div>
           )}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Servicio.css';
 import ServicioCalendario from './ServicioCalendario';
-
+  
 const categories = ['Todos', 'Cabello', 'Masaje', 'Facial', 'Manicure', 'Pedicure'];
 
 const servicios = [
