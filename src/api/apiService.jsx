@@ -41,6 +41,17 @@ const apiService = {
       throw error;
     });
   },
+  update: (endpoint, data) => {
+    return apiClient.put(endpoint, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    .then(response => response.data)
+    .catch(error => {
+      throw error;
+    });
+  },
 
   delete: (endpoint, data) => {
     return apiClient.delete(endpoint, { data })
