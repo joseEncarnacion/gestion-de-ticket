@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import apiService from "../../../api/apiService";
-import { RxMagnifyingGlass } from "react-icons/rx";
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -13,6 +12,8 @@ const MySwal = withReactContent(Swal);
 
 const Establishments = ({ onEstablishmentsLoaded }) => {
   const [services, setServices] = useState([]);
+  const [filteredServices, setFilteredServices] = useState([]); // Nueva variable de estado para los servicios filtrados
+  const [searchTerm, setSearchTerm] = useState(""); // Nueva variable de estado para el término de búsqueda
   const [editingServiceId, setEditingServiceId] = useState(null);
   const [newService, setNewService] = useState({
     userId: "",
@@ -45,6 +46,14 @@ const Establishments = ({ onEstablishmentsLoaded }) => {
     }
   }, [userId]);
 
+  useEffect(() => {
+    // Filtrar servicios según el término de búsqueda
+    const filtered = services.filter(service =>
+      service.businessName.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredServices(filtered);
+  }, [searchTerm, services]);
+
   const fetchServices = () => {
     apiService.getAll('/Establishments')
       .then(response => {
@@ -52,6 +61,7 @@ const Establishments = ({ onEstablishmentsLoaded }) => {
         const userServices = response.data.items.filter(service => service.userId === userId);
         console.log("Servicios del usuario:", userServices);
         setServices(userServices);
+        setFilteredServices(userServices); // Inicialmente, todos los servicios están filtrados
         onEstablishmentsLoaded(userServices); // Notificar al componente padre
       })
       .catch(error => {
@@ -188,9 +198,17 @@ const Establishments = ({ onEstablishmentsLoaded }) => {
       <div className="business-owner-search-profile">
         <img src={profilePic} alt="Profile" className="establecimiento_profile" />
         <h1>Gestión de Establecimientos</h1>
-        <div className="business-owner-search-container">
-          <RxMagnifyingGlass className="business-owner-search-icon" />
-          <input type="text" placeholder="Buscar Establecimientos" />
+        <div className="wrap-input-18">
+          <div className="search">
+            <div className="business-owner-search-container">
+              <input
+                type="text"
+                placeholder="Buscar Establecimientos"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)} // Actualizar el término de búsqueda
+              />
+            </div>
+          </div>
         </div>
       </div>
       <div className="create-service-form">
@@ -241,44 +259,45 @@ const Establishments = ({ onEstablishmentsLoaded }) => {
               />
             </div>
           )}
+          {!imagePreviewUrl && (
+            <div className="image-previewss" onClick={handleFileInputClick}>
+              <img src={loginImage} alt="Default" className="reduced-size" />
+            </div>
+          )}
         </div>
         <button onClick={addOrUpdateService}>
-          {editingServiceId ? "Actualizar Servicio" : "Crear Servicio"}
+          {editingServiceId ? "Actualizar" : "Crear"} Establecimiento
         </button>
       </div>
-      <Row xs={1} md={2} className="g-4">
-        {services.length === 0 ? (
-          <Col>
-            <p>No hay establecimientos disponibles</p>
-          </Col>
-        ) : (
-          services.map(service => (
-            <Col key={service.id}>
-              <Card style={cardTextStyle}>
+      <Row xs={1} md={2} lg={3} className="g-4">
+        {filteredServices.map((service, index) => (
+          <Col key={index}>
+            <Card style={cardStyle}>
+              <div className="image-container">
                 <Card.Img
                   variant="top"
                   src={`https://localhost:7207/api/v1/Images/%20?folderName=Establishment&imageName=${service.profileImage}`}
-                  alt=""
+                  alt="Service"
                   style={imgStyle}
                 />
-                <Card.Body>
-                  <Card.Title>{service.businessName}</Card.Title>
-                  <Card.Text>
-                    Ubicación: {service.location}
-                  </Card.Text>
-                  <Card.Text>
-                    Horas: {service.workingHours}
-                  </Card.Text>
-                  <Card.Text>
-                    Descripción: {service.description}
-                  </Card.Text>
-                  <button onClick={() => editService(service)}>Editar</button>
-                  <button onClick={() => removeService(service.id)}>Eliminar</button>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))
-        )}
+              </div>
+              <Card.Body>
+                <Card.Title>{service.businessName}</Card.Title>
+                <Card.Text style={cardTextStyle}>
+                  <strong>Ubicación:</strong> {service.location}
+                </Card.Text>
+                <Card.Text style={cardTextStyle}>
+                  <strong>Horas de Trabajo:</strong> {service.workingHours}
+                </Card.Text>
+                <Card.Text style={cardTextStyle}>
+                  <strong>Descripción:</strong> {service.description}
+                </Card.Text>
+                <button onClick={() => editService(service)}>Editar</button>
+                <button onClick={() => removeService(service.id)}>Eliminar</button>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
       </Row>
     </div>
   );

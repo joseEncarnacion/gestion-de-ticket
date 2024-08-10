@@ -175,3 +175,114 @@
   height: 100%;
   object-fit: cover;
 }
+
+
+.service-job {
+  padding: 20px;
+}
+
+.business-owner-search-profile {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.establecimiento_profile {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.wrap-input-18 {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.search {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+}
+
+.business-owner-search-container {
+  width: 100%;
+  padding: 5px;
+  background-color: #f0f0f0; /* Cambia esto al color de fondo deseado */
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.business-owner-search-container input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+}
+
+.create-service-form {
+  margin-bottom: 20px;
+}
+
+.create-service-form input,
+.create-service-form button {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
+
+.create-service-form button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.create-service-form button:hover {
+  background-color: #45a049;
+}
+
+.image-previewss img {
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+}
+
+.image-previewss {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.reduced-size {
+  max-width: 100px;
+  max-height: 100px;
+}
+
+.g-4 {
+  margin-top: 20px;
+}
+
+.card-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.image-container {
+  overflow: hidden;
+  height: 150px; /* Altura fija para las imágenes */
+}
+
