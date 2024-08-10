@@ -98,6 +98,10 @@ const HomeInitialAUTH = () => {
     const navigateToProfile = () => {
         navigate('/Configprofiles');
     };
+
+    const navigateToRoles= () => {
+        navigate('/Roless');
+    };
     return (
         <div className='home-header'>
             <div className="header-content">
@@ -118,9 +122,9 @@ const HomeInitialAUTH = () => {
                         <div className="profile-menu">
                             <div className="profile-option" onClick={navigateToProfile}>Configurar Perfil</div>
                             <div className="profile-option">
-                                <span>Notificación</span>
-                                <IoIosNotificationsOutline className="icon" />
+                                <span>Ver turno</span>
                             </div>
+                            <div className="profile-option" onClick={navigateToRoles}>Actualizar estatus</div>
                             <div className="profile-option" onClick={logout}>Cerrar Sesión</div>
                         </div>
                     )}

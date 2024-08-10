@@ -1,23 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import Swal from "sweetalert2";
-import apiService from "../../api/apiService"; // Asegúrate de importar apiService correctamente
+import apiService from "../../api/apiService";
 import loginImage from "../Assets/file2.png";
 import "./Configprofiles.css";
 
 function Configprofiles() {
   const [usuario, setUsuario] = useState({
-    Nombre: "",
-    Apellido: "",
-    NomeUsuario: "",
-    email: "",
-    phoneNumber: "",
-    roles: "",
+    Id: "",
+    FirstName: "",
+    LastName: "",
+    UserName: "",
     ProfileImage: null,
   });
   const [imagePreviewUrl, setImagePreviewUrl] = useState(loginImage);
-  const [isOwner, setIsOwner] = useState(false);
-  const [isEmployee, setIsEmployee] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,16 +23,14 @@ function Configprofiles() {
       apiService.getUserByUsername(userProfile.userName).then(response => {
         const data = response.data;
         setUsuario({
-          Nombre: data.firstName,
-          Apellido: data.lastName,
-          NomeUsuario: data.userName,
-          email: data.email,
-          phoneNumber: data.phoneNumber,
-          roles: data.roles.join(', '),
+          Id: data.id,
+          FirstName: data.firstName,
+          LastName: data.lastName,
+          UserName: data.userName,
           ProfileImage: data.profileImage,
         });
         if (data.profileImage) {
-          setImagePreviewUrl(`https://localhost:7207/api/v1/Images/%20?folderName=CustomIdentityUser&imageName=${data.profileImage}`);
+          setImagePreviewUrl(`https://localhost:7207/api/v1/Images/%20?folderName=CustomIdentityUser&imageName=${userProfile.profileImage}`);
         }
       }).catch(error => {
         console.error("Error fetching user data:", error);
@@ -53,7 +48,7 @@ function Configprofiles() {
           Swal.fire({
             title: "Se agregó la imagen correctamente",
             imageUrl: event.target.result,
-            imageAlt: "Se agregó la imagen correctamente",
+            imageAlt: "Imagen agregada",
             customClass: 'swal2-custom'
           });
         };
@@ -74,64 +69,49 @@ function Configprofiles() {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: "btn btn-success",
-        cancelButton: "btn btn-danger"
-      },
-      buttonsStyling: false
-    });
-
-    swalWithBootstrapButtons.fire({
+    Swal.fire({
       title: "¿Estás seguro?",
       text: "No podrás revertir esto!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Sí, registrar!",
+      confirmButtonText: "Sí, guardar cambios",
       cancelButtonText: "No, cancelar!",
       reverseButtons: true
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
           const formData = new FormData();
-          formData.append('FirstName', usuario.Nombre);
-          formData.append('LastName', usuario.Apellido);
-          formData.append('UserName', usuario.NomeUsuario);
+          formData.append('Id', usuario.Id);
+          formData.append('FirstName', usuario.FirstName);
+          formData.append('LastName', usuario.LastName);
+          formData.append('UserName', usuario.UserName);
           if (usuario.ProfileImage) {
             formData.append('ImageFile', usuario.ProfileImage);
+            formData.append('ProfileImage', usuario.ProfileImage.name); // Añadir el nombre de la imagen
           }
-          formData.append('IsOwner', isOwner);
-          formData.append('IsEmployee', isEmployee);
 
-          const response = await apiService.create('/Account/userbyusername', formData); // Usa apiService.create
+          const response = await apiService.update(`/Account/update/${usuario.Id}`, formData);
 
-          if (response.success) {
-            swalWithBootstrapButtons.fire({
-              title: "Registrado!",
-              text: "Usuario registrado con éxito.",
-              icon: "success"
-            }).then(() => {
-              navigate("/"); // Redirige a la ruta donde está el componente Login
-            });
-          } else {
-            swalWithBootstrapButtons.fire({
-              title: "Error",
-              text: response.message || "Error al registrar el usuario",
-              icon: "error"
-            });
-          }
+          Swal.fire({
+            title: "Actualizado!",
+            text: "Usuario actualizado con éxito.",
+            icon: "success"
+          }).then(() => {
+            setIsEditing(false);
+          });
+
         } catch (error) {
           console.error("Error durante la solicitud:", error);
-          swalWithBootstrapButtons.fire({
+          Swal.fire({
             title: "Error",
-            text: error.response?.data.message || 'Error al registrar el usuario',
+            text: error.response?.data.message || 'Error al actualizar el usuario',
             icon: "error"
           });
         }
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-        swalWithBootstrapButtons.fire({
+        Swal.fire({
           title: "Cancelado",
-          text: "El registro ha sido cancelado",
+          text: "La actualización ha sido cancelada",
           icon: "error"
         });
       }
@@ -147,11 +127,12 @@ function Configprofiles() {
             <input
               type="text"
               className="form-control"
-              name="Nombre"
-              id="Nombre"
-              value={usuario.Nombre}
+              name="FirstName"
+              id="FirstName"
+              value={usuario.FirstName}
               placeholder="Nombre"
               onChange={onChange}
+              disabled={!isEditing}
             />
           </div>
 
@@ -159,11 +140,12 @@ function Configprofiles() {
             <input
               type="text"
               className="form-control"
-              name="Apellido"
-              id="Apellido"
-              value={usuario.Apellido}
+              name="LastName"
+              id="LastName"
+              value={usuario.LastName}
               placeholder="Apellido"
               onChange={onChange}
+              disabled={!isEditing}
             />
           </div>
 
@@ -171,35 +153,12 @@ function Configprofiles() {
             <input
               type="text"
               className="form-control"
-              name="email"
-              id="email"
-              value={usuario.email}
-              placeholder="email"
+              name="UserName"
+              id="UserName"
+              value={usuario.UserName}
+              placeholder="Nombre de Usuario"
               onChange={onChange}
-            />
-          </div>
-
-          <div className="form-group">
-            <input
-              type="text"
-              className="form-control"
-              name="phoneNumber"
-              id="phoneNumber"
-              value={usuario.phoneNumber}
-              placeholder="Numero de telefono"
-              onChange={onChange}
-            />
-          </div>
-
-          <div className="form-group">
-            <input
-              type="text"
-              className="form-control"
-              name="roles"
-              id="roles"
-              value={usuario.roles}
-              placeholder="Rolo de Usuario"
-              onChange={onChange}
+              disabled={!isEditing}
             />
           </div>
 
@@ -209,9 +168,15 @@ function Configprofiles() {
             name="ProfileImage"
             style={{ display: 'none' }}
             onChange={onChange}
+            disabled={!isEditing}
           />
           <div className="form-group mt-3">
-            <button type="submit">Editar</button>
+            <button type="button" onClick={() => setIsEditing(!isEditing)}>
+              {isEditing ? "Cancelar Edición" : "Editar"}
+            </button>
+            {isEditing && (
+              <button type="submit">Guardar</button>
+            )}
           </div>
         </form>
       </div>
