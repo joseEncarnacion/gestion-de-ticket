@@ -13,6 +13,7 @@ const MySwal = withReactContent(Swal);
 
 const Servicejob = () => {
   const [services, setServices] = useState([]);
+  const [filteredServices, setFilteredServices] = useState([]);
   const [establishments, setEstablishments] = useState([]);
   const [selectedEstablishment, setSelectedEstablishment] = useState(null);
   const [editingServiceId, setEditingServiceId] = useState(null);
@@ -26,6 +27,7 @@ const Servicejob = () => {
   });
   const [imagePreviewUrl, setImagePreviewUrl] = useState(loginImage);
   const [profilePic, setProfilePic] = useState(loginImage);
+  const [searchTerm, setSearchTerm] = useState("");
   const fileInputRef = useRef(null);
 
   useEffect(() => {
@@ -42,6 +44,15 @@ const Servicejob = () => {
     fetchServices();
     fetchEstablishments();
   }, []);
+
+  useEffect(() => {
+    // Filter services whenever the search term changes
+    setFilteredServices(
+      services.filter(service =>
+        service.serviceName.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
+  }, [searchTerm, services]);
 
   const fetchServices = () => {
     apiService.getAll('/Services')
@@ -201,7 +212,12 @@ const Servicejob = () => {
         <h1>Gestión de Servicios</h1>
         <div className="business-owner-search-container">
           <RxMagnifyingGlass className="business-owner-search-icon" />
-          <input type="text" placeholder="Buscar servicios" />
+          <input
+            type="text"
+            placeholder="Buscar servicios"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
         </div>
       </div>
       <div className="create-service-form">
@@ -268,12 +284,12 @@ const Servicejob = () => {
         </button>
       </div>
       <Row xs={1} md={2} className="g-4">
-        {services.length === 0 ? (
+        {filteredServices.length === 0 ? (
           <Col>
             <p>No hay servicios disponibles</p>
           </Col>
         ) : (
-          services
+          filteredServices
             .filter(service => establishments.some(e => e.id === service.establishmentId && e.userId === userProfile.id))
             .map(service => (
               <Col key={service.id}>
