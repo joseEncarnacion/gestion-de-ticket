@@ -16,7 +16,8 @@ import Intro from "./components/pages/Intro";
 import Roless from "./components/auth/Roless";
 
 
-
+import ContratarEmpleado from "./components/EmployeesView/ContratarEmpleado";
+import AgendarCita from "./components/CitasView/AgendarCita";
 
 
 
@@ -36,6 +37,7 @@ function App() {
           <Route path="/Establishments" element={<Establishments/>}/>
           <Route path="ImageDisplay" element={<ImageDisplay/>}/>
           <Route path="/Configprofiles" element={<Configprofiles />} />
+
         </Routes>
       </div>
     </Router>
